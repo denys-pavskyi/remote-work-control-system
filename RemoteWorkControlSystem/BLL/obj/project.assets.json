@@ -3110,6 +3110,31 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "AutoMapper": "12.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.11",
+          "Microsoft.EntityFrameworkCore": "6.0.11",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.11",
+          "Microsoft.EntityFrameworkCore.InMemory": "6.0.11",
+          "Microsoft.EntityFrameworkCore.Relational": "6.0.11",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.11",
+          "Microsoft.IdentityModel.Tokens": "6.25.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration": "6.0.10",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Core": "6.0.10",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.10",
+          "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore": "6.0.10",
+          "System.IdentityModel.Tokens.Jwt": "6.25.1"
+        },
+        "compile": {
+          "bin/placeholder/DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DAL.dll": {}
+        }
       }
     }
   },
@@ -9632,11 +9657,17 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "DAL/1.0.0": {
+      "type": "project",
+      "path": "../DAL/DAL.csproj",
+      "msbuildProject": "../DAL/DAL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "AutoMapper >= 12.0.0",
+      "DAL >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.11",
       "Microsoft.EntityFrameworkCore >= 6.0.11",
       "Microsoft.EntityFrameworkCore.Abstractions >= 6.0.11",
@@ -9685,7 +9716,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\denpa\\Desktop\\Диплом\\remote-work-control-system\\remote-work-control-system\\RemoteWorkControlSystem\\DAL\\DAL.csproj": {
+              "projectPath": "C:\\Users\\denpa\\Desktop\\Диплом\\remote-work-control-system\\remote-work-control-system\\RemoteWorkControlSystem\\DAL\\DAL.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
