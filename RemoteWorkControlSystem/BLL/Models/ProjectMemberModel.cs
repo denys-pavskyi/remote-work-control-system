@@ -19,7 +19,6 @@ namespace BLL.Models
 
         public UserRole Role { get; set; }
 
-        public User User { get; set; }
         public List<int> TaskDurationIds { get; set; }
         public List<int> WorkSessionIds { get; set; }
         public List<int> EmployeeScreenActivityIds { get; set; }
