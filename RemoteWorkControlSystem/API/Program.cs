@@ -1,3 +1,11 @@
+using AutoMapper;
+using BLL;
+using BLL.Interfaces;
+using BLL.Services;
+using DAL.Data;
+using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +15,43 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "AllowOrigin",
+        builder => builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
+
+
+var connectionString = builder.Configuration.GetConnectionString("RemoteWorkControlSystemDB");
+builder.Services.AddDbContext<RemoteWorkControlSystemDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+
+var mapperConfiguration = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutomapperProfile());
+});
+builder.Services.AddSingleton(mapperConfiguration.CreateMapper());
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddScoped<IEmployeeScreenActivityService, EmployeeScreenActivityService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IProjectMemberService, ProjectMemberService>();
+builder.Services.AddScoped<ITaskDurationService, TaskDurationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IWorkSessionService, WorkSessionService>();
+
+
 var app = builder.Build();
 
+app.UseCors("AllowOrigin");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
