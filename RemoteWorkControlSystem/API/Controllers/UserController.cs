@@ -7,16 +7,16 @@ namespace API.Controllers
     
     [Route("api/")]
     [ApiController]
-    public class userController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserService _service;
 
-        public userController(IUserService service)
+        public UserController(IUserService service)
         {
             _service = service;
         }
 
-        // GET: api/<userController>
+        // GET: api/<UserController>
         [HttpGet]
         [Route("Users")]
         public async Task<ActionResult<IEnumerable<UserModel>>> Get()
@@ -35,7 +35,7 @@ namespace API.Controllers
 
         }
 
-        // GET api/<userController>/5
+        // GET api/<UserController>/5
         [HttpGet("User/{id}")]
         public async Task<ActionResult<UserModel>> GetById(int id)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
 
 
 
-        // POST api/userPhoto
+        // POST api/UserPhoto
         [HttpPost("User")]
         public async Task<ActionResult> Post([FromBody] UserModel user)
         {
@@ -73,7 +73,7 @@ namespace API.Controllers
 
         }
 
-        // PUT api/<userController>/5
+        // PUT api/<UserController>/5
         [HttpPut("User/{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] UserModel value)
         {
@@ -95,7 +95,7 @@ namespace API.Controllers
             return Ok(value);
         }
 
-        // DELETE api/<userController>/5
+        // DELETE api/<UserController>/5
         [HttpDelete("User/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
