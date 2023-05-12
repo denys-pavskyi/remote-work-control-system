@@ -140,6 +140,23 @@ namespace BLL.Validations
             }
         }
 
+        public static void ProjectModelValidation(ProjectModel model)
+        {
+            if (model.ProjectTitle == null || model.ProjectTitle == String.Empty)
+            {
+                throw new RemoteWorkControlSystemException("Wrong ProjectTitle");
+            }
+            if (model.ProjectKey == null || model.ProjectKey == String.Empty)
+            {
+                throw new RemoteWorkControlSystemException("Wrong ProjectKey");
+            }
+
+            if (model.ScreenshotInterval < 0.1f)
+            {
+                throw new RemoteWorkControlSystemException("Wrong ScreenshotInterval");
+            }
+
+        }
 
     }
 }

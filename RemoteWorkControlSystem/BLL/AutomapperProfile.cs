@@ -43,6 +43,10 @@ namespace BLL
 
             CreateMap<WorkSessionModel, WorkSession>()
                 .ForMember(wsm => wsm.ProjectMember, ws => ws.UseDestinationValue());
+
+            CreateMap<Project, ProjectModel>()
+                .ForMember(pm => pm.ProjectMemberIds, p => p.MapFrom(x => x.ProjectMembers.Select(x => x.Id)))
+                .ReverseMap();
         }
     }
 }

@@ -62,6 +62,7 @@ namespace DAL.Repositories
                 .Include(x => x.EmployeeScreenActivities)
                 .Include(x => x.TaskDurations)
                 .Include(x => x.WorkSessions)
+                .Include(x => x.Project)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
 
@@ -74,6 +75,7 @@ namespace DAL.Repositories
                 .Include(x => x.EmployeeScreenActivities)
                 .Include(x => x.TaskDurations)
                 .Include(x => x.WorkSessions)
+                .Include(x => x.Project)
                 .ToListAsync();
         }
 

@@ -13,6 +13,7 @@ namespace DAL.Interfaces
         ITaskDurationRepository TaskDurationRepository { get; }
         IUserRepository UserRepository { get; }
         IWorkSessionRepository WorkSessionRepository { get; }
+        IProjectRepository ProjectRepository { get; }
        
         Task SaveAsync();
     }

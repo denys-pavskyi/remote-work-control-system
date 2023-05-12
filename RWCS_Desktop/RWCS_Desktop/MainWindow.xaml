@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button x:Name="screenshotButton" Content="Button" HorizontalAlignment="Left" Margin="376,0,0,0" VerticalAlignment="Center" Height="31" Width="65" Click="screenshotButton_Click"/>
 
     </Grid>
 </Window>

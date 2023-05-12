@@ -10,6 +10,22 @@ namespace DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectKey = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    ProjectTitle = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    IsScreenActivityControlEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    ScreenshotInterval = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -34,16 +50,20 @@ namespace DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    ProjectKey = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    ProjectTitle = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectMembers_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ProjectMembers_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProjectMembers_Users_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -90,8 +110,7 @@ namespace DAL.Migrations
                         name: "FK_TaskDurations_ProjectMembers_ProjectMemberId",
                         column: x => x.ProjectMemberId,
                         principalTable: "ProjectMembers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -112,9 +131,13 @@ namespace DAL.Migrations
                         name: "FK_WorkSessions_ProjectMembers_ProjectMemberId",
                         column: x => x.ProjectMemberId,
                         principalTable: "ProjectMembers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "JiraId", "LastName", "Password", "UserName" },
+                values: new object[] { 1, "den.pavski@gmai.com", "Denys", "-", "Pavskyi", "password1", "denys_pavskyi2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeScreenActivities_ProjectMemberId",
@@ -122,9 +145,9 @@ namespace DAL.Migrations
                 column: "ProjectMemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectMembers_UserId",
+                name: "IX_ProjectMembers_ProjectId",
                 table: "ProjectMembers",
-                column: "UserId");
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskDurations_ProjectMemberId",
@@ -150,6 +173,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectMembers");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Users");

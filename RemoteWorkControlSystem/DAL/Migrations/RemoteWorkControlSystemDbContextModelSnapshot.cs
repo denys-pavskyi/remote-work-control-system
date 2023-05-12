@@ -47,13 +47,16 @@ namespace DAL.Migrations
                     b.ToTable("EmployeeScreenActivities");
                 });
 
-            modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
+            modelBuilder.Entity("DAL.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsScreenActivityControlEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProjectKey")
                         .IsRequired()
@@ -65,6 +68,25 @@ namespace DAL.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<float>("ScreenshotInterval")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -73,7 +95,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectMembers");
                 });
@@ -152,6 +174,18 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "den.pavski@gmai.com",
+                            FirstName = "Denys",
+                            JiraId = "-",
+                            LastName = "Pavskyi",
+                            Password = "password1",
+                            UserName = "denys_pavskyi2"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.WorkSession", b =>
@@ -194,11 +228,19 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
                 {
+                    b.HasOne("DAL.Entities.Project", "Project")
+                        .WithMany("ProjectMembers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("ProjectMembers")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
 
                     b.Navigation("User");
                 });
@@ -208,7 +250,7 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Entities.ProjectMember", "ProjectMember")
                         .WithMany("TaskDurations")
                         .HasForeignKey("ProjectMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ProjectMember");
@@ -219,10 +261,15 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Entities.ProjectMember", "ProjectMember")
                         .WithMany("WorkSessions")
                         .HasForeignKey("ProjectMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ProjectMember");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Project", b =>
+                {
+                    b.Navigation("ProjectMembers");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProjectMember", b =>

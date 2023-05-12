@@ -17,6 +17,7 @@ namespace DAL.Data
         private TaskDurationRepository taskDurationRepository;
         private UserRepository userRepository;
         private WorkSessionRepository workSessionRepository;
+        private ProjectRepository projectRepository;
 
 
         public UnitOfWork(RemoteWorkControlSystemDbContext context)
@@ -84,6 +85,19 @@ namespace DAL.Data
                 return workSessionRepository;
             }
         }
+
+        public IProjectRepository ProjectRepository
+        {
+            get
+            {
+                if (projectRepository == null)
+                {
+                    projectRepository = new ProjectRepository(dbContext);
+                }
+                return projectRepository;
+            }
+        }
+
 
         public async Task SaveAsync()
         {

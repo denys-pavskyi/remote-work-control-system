@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "4nAGqNVxzrdyhmq9nLpxZhteTsvKgsiOsg5lOrGeBwaE2mrCZY1S8vLwIFsTMuwgz/21p+vhkc7cxn29GHc3MQ==",
+  "dgSpecHash": "gbRnd83eepGKp8IgCfY3hnnaQ1nUj3+TzWcmpb6p5cKiv0Z7OISpOBCLEofO39kS9FMeMzBE+6zgSXe3YW+Lcw==",
   "success": true,
   "projectFilePath": "C:\\Users\\denpa\\Desktop\\Диплом\\remote-work-control-system\\remote-work-control-system\\RWCS_Desktop\\RWCS_Desktop\\RWCS_Desktop.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\denpa\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\denpa\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

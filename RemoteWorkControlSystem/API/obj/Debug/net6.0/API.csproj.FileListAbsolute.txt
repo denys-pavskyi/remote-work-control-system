@@ -513,3 +513,10 @@ C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-contr
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\obj\Debug\net6.0\ref\API.dll
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\CoverletSourceRootsMapping
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Core.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Identity.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\System.IO.Hashing.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\System.Memory.Data.dll

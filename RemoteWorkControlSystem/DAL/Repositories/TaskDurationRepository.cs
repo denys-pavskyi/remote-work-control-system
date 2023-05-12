@@ -75,7 +75,9 @@ namespace DAL.Repositories
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.WorkSessions)
                 .Include(x => x.ProjectMember)
-                .ThenInclude(x => x.EmployeeScreenActivities)
+                    .ThenInclude(x => x.EmployeeScreenActivities)
+                .Include(x => x.ProjectMember)
+                    .ThenInclude(x => x.Project)
                 .ToListAsync();
         }
 

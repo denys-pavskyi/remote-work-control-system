@@ -47,6 +47,7 @@ builder.Services.AddScoped<IProjectMemberService, ProjectMemberService>();
 builder.Services.AddScoped<ITaskDurationService, TaskDurationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWorkSessionService, WorkSessionService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 
 var app = builder.Build();
