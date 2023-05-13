@@ -8,6 +8,9 @@ namespace BLL.Models
 {
     public class LoginResponse
     {
-        //TODO
+        public string Username { get; set; } = string.Empty;
+
+        public int? Id { get; set; }
+
     }
 }

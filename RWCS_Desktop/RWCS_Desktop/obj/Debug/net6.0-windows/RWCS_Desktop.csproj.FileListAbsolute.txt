@@ -19,3 +19,7 @@ C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-contr
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\RWCS_Desktop.pdb
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\RWCS_Desktop.genruntimeconfig.cache
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\ref\RWCS_Desktop.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\AuthWindow.g.cs
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\AuthWindow.baml
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\obj\Debug\net6.0-windows\RWCS_Desktop.csproj.CopyComplete

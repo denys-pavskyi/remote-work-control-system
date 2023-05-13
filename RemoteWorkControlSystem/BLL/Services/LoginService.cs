@@ -41,7 +41,7 @@ namespace BLL.Services
             //var token = await Task.Run(() => TokenHelper.GenerateToken(currentUser));
 
             //return new LoginResponse { Username = currentUser.UserName, Id = currentUser.Id, Role = currentUser.Role.ToString(), Token = token };
-            return new LoginResponse { };
+            return new LoginResponse { Id = currentUser.Id , Username = currentUser.UserName };
         }
 
 

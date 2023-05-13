@@ -23,9 +23,22 @@ namespace RWCS_Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+
+        private int _userId;
+        private string _userName;
+
+        public MainWindow(int userId, string userName)
         {
             InitializeComponent();
+            _userId = userId;
+            _userName = userName;
+            Initialization();
+            
+        }
+
+        private void Initialization()
+        {
+            usernameInfo.Content = _userName;
         }
 
         private void screenshotButton_Click(object sender, RoutedEventArgs e)
@@ -50,10 +63,12 @@ namespace RWCS_Desktop
             }
         }
 
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AuthWindow authWindow = new AuthWindow();
+            authWindow.Show();
+            this.Close();
 
-        
-
-
-
+        }
     }
 }

@@ -1,0 +1,20 @@
+﻿<Window x:Class="RWCS_Desktop.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RWCS_Desktop"
+        mc:Ignorable="d"
+        Title="AuthWindow" Height="450" Width="500">
+    <Grid>
+        <Label Content="Авторизація" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <TextBox x:Name="loginTextBox" HorizontalAlignment="Left" Margin="153,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" Text="denys_pavskyi2"/>
+        <Label Content="Логін:" HorizontalAlignment="Left" Margin="87,190,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="passwordTextBox" HorizontalAlignment="Left" Margin="153,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" Text="password1"/>
+        <Label Content="Пароль:" HorizontalAlignment="Left" Margin="87,222,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="log_in_Button" Content="Увійти" HorizontalAlignment="Left" Margin="141,288,0,0" VerticalAlignment="Top" Height="31" Width="80" FontWeight="Bold" Background="#FFB0D09B" Click="log_in_Button_Click"/>
+        <Button x:Name="registrationButton" Content="Реєстрація" HorizontalAlignment="Left" Margin="292,288,0,0" VerticalAlignment="Top" Height="30"/>
+        <Label x:Name="messageText" Content="" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Foreground="Red" Width="326" FontSize="16"/>
+
+    </Grid>
+</Window>
