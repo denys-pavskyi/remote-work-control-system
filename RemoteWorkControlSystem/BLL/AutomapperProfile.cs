@@ -19,7 +19,6 @@ namespace BLL
                 .ForMember(esa => esa.ProjectMember, esam => esam.UseDestinationValue());
 
             CreateMap<ProjectMember, ProjectMemberModel>()
-                .ForMember(pmm => pmm.TaskDurationIds, pm => pm.MapFrom(x => x.TaskDurations.Select(x => x.Id)))
                 .ForMember(pmm => pmm.WorkSessionIds, pm => pm.MapFrom(x => x.WorkSessions.Select(x => x.Id)))
                 .ForMember(pmm => pmm.EmployeeScreenActivityIds, pm => pm.MapFrom(x => x.EmployeeScreenActivities.Select(x => x.Id)));
             
@@ -27,10 +26,6 @@ namespace BLL
             CreateMap<ProjectMemberModel, ProjectMember>()
                 .ForMember(pm => pm.User, pmm => pmm.UseDestinationValue());
 
-            CreateMap<TaskDuration, TaskDurationModel>();
-
-            CreateMap<TaskDurationModel, TaskDuration>()
-                .ForMember(td => td.ProjectMember, tdm => tdm.UseDestinationValue());
 
 
             CreateMap<User, UserModel>()

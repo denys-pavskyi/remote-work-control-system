@@ -57,8 +57,6 @@ namespace DAL.Repositories
         {
             return await _context.Users
                 .Include(x => x.ProjectMembers)
-                    .ThenInclude(x => x.User)
-                .Include(x => x.ProjectMembers)
                     .ThenInclude(x => x.WorkSessions)
                 .Include(x => x.ProjectMembers)
                     .ThenInclude(x => x.EmployeeScreenActivities)
@@ -72,8 +70,6 @@ namespace DAL.Repositories
         public async Task<IEnumerable<User>> GetAllWithDetailsAsync()
         {
             return await _context.Users
-                .Include(x => x.ProjectMembers)
-                    .ThenInclude(x => x.User)
                 .Include(x => x.ProjectMembers)
                     .ThenInclude(x => x.WorkSessions)
                 .Include(x => x.ProjectMembers)

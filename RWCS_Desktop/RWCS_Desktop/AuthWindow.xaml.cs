@@ -48,7 +48,7 @@ namespace RWCS_Desktop
                 var result = JsonConvert.DeserializeObject<LoginResponse>(resultContent);
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
 
-                MainWindow window = new MainWindow(result.Id, result.Username);
+                MainWindow window = new MainWindow(result.Id, result.Username, result.Email, result.JiraApiKey, result.JiraBaseUrl);
                 this.Close();
                 window.Show();
             }

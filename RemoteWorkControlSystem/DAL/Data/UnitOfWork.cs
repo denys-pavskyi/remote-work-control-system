@@ -14,7 +14,6 @@ namespace DAL.Data
 
         private EmployeeScreenActivityRepository employeeScreenActivityRepository;
         private ProjectMemberRepository projectMemberRepository;
-        private TaskDurationRepository taskDurationRepository;
         private UserRepository userRepository;
         private WorkSessionRepository workSessionRepository;
         private ProjectRepository projectRepository;
@@ -50,17 +49,7 @@ namespace DAL.Data
             }
         }
 
-        public ITaskDurationRepository TaskDurationRepository
-        {
-            get
-            {
-                if (taskDurationRepository == null)
-                {
-                    taskDurationRepository = new TaskDurationRepository(dbContext);
-                }
-                return taskDurationRepository;
-            }
-        }
+        
 
         public IUserRepository UserRepository
         {

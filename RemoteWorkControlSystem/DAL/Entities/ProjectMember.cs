@@ -21,7 +21,6 @@ namespace DAL.Entities
 
         public User User { get; set; }
         public Project Project { get; set; }
-        public List<TaskDuration> TaskDurations { get; set; }
         public List<WorkSession> WorkSessions { get; set; }
         public List<EmployeeScreenActivity> EmployeeScreenActivities { get; set; }
     }

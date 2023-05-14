@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Fg1OD2OvG+lNGpXvEyBOUy8mdO/d4dMd+Ubehb1K2CJdMCsecNTZwRCOI3rXU+BlW39MiI1F6D/ibdA1C9kYbQ==",
+  "dgSpecHash": "Ddu3kcH5KK4TJP5yoVgUF+7ieJMHg6aPMPzn8k6RNd1HkPZRHkDmkq9wM9SKdFdwTBCIwLw8elDGBQcfVDEgLQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\denpa\\Desktop\\Диплом\\remote-work-control-system\\remote-work-control-system\\RWCS_Desktop\\RWCS_Desktop\\RWCS_Desktop.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\denpa\\.nuget\\packages\\atlassian.sdk\\13.0.0\\atlassian.sdk.13.0.0.nupkg.sha512",
     "C:\\Users\\denpa\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\denpa\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\denpa\\.nuget\\packages\\restsharp\\106.12.0\\restsharp.106.12.0.nupkg.sha512",
     "C:\\Users\\denpa\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
   ],
   "logs": []

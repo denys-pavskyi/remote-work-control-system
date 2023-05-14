@@ -20,7 +20,9 @@ namespace BLL.Models
 
         public string Email { get; set; }
 
-        public string JiraId { get; set; }
+        public string JiraBaseUrl { get; set; }
+
+        public string JiraApiKey { get; set; }
 
         public List<int> ProjectMemberIds { get; set; }
     }

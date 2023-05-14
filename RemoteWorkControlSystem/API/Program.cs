@@ -44,7 +44,6 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmployeeScreenActivityService, EmployeeScreenActivityService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IProjectMemberService, ProjectMemberService>();
-builder.Services.AddScoped<ITaskDurationService, TaskDurationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWorkSessionService, WorkSessionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();

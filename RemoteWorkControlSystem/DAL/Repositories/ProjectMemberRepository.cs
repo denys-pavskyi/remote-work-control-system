@@ -60,7 +60,6 @@ namespace DAL.Repositories
             return await _context.ProjectMembers
                 .Include(x => x.User)
                 .Include(x => x.EmployeeScreenActivities)
-                .Include(x => x.TaskDurations)
                 .Include(x => x.WorkSessions)
                 .Include(x => x.Project)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -73,7 +72,6 @@ namespace DAL.Repositories
             return await _context.ProjectMembers
                 .Include(x => x.User)
                 .Include(x => x.EmployeeScreenActivities)
-                .Include(x => x.TaskDurations)
                 .Include(x => x.WorkSessions)
                 .Include(x => x.Project)
                 .ToListAsync();

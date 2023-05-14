@@ -58,6 +58,10 @@ namespace DAL.Migrations
                     b.Property<bool>("IsScreenActivityControlEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JiraDomain")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProjectKey")
                         .IsRequired()
                         .HasMaxLength(40)
@@ -100,41 +104,6 @@ namespace DAL.Migrations
                     b.ToTable("ProjectMembers");
                 });
 
-            modelBuilder.Entity("DAL.Entities.TaskDuration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProjectMemberId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SprintId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TaskId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("TimeSpent")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectMemberId");
-
-                    b.ToTable("TaskDurations");
-                });
-
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -152,7 +121,11 @@ namespace DAL.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("JiraId")
+                    b.Property<string>("JiraApiKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JiraBaseUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -181,7 +154,8 @@ namespace DAL.Migrations
                             Id = 1,
                             Email = "den.pavski@gmai.com",
                             FirstName = "Denys",
-                            JiraId = "-",
+                            JiraApiKey = "-",
+                            JiraBaseUrl = "-",
                             LastName = "Pavskyi",
                             Password = "password1",
                             UserName = "denys_pavskyi2"
@@ -202,8 +176,16 @@ namespace DAL.Migrations
                     b.Property<int>("ProjectMemberId")
                         .HasColumnType("int");
 
+                    b.Property<string>("SprintKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TaskKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("WorkTime")
                         .HasColumnType("real");
@@ -245,17 +227,6 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DAL.Entities.TaskDuration", b =>
-                {
-                    b.HasOne("DAL.Entities.ProjectMember", "ProjectMember")
-                        .WithMany("TaskDurations")
-                        .HasForeignKey("ProjectMemberId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("ProjectMember");
-                });
-
             modelBuilder.Entity("DAL.Entities.WorkSession", b =>
                 {
                     b.HasOne("DAL.Entities.ProjectMember", "ProjectMember")
@@ -275,8 +246,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
                 {
                     b.Navigation("EmployeeScreenActivities");
-
-                    b.Navigation("TaskDurations");
 
                     b.Navigation("WorkSessions");
                 });

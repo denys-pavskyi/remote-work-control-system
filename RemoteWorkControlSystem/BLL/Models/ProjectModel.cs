@@ -16,6 +16,8 @@ namespace BLL.Models
 
         public float ScreenshotInterval { get; set; }
 
+        public string JiraDomain { get; set; }
+
         public List<int> ProjectMemberIds { get; set; }
     }
 }

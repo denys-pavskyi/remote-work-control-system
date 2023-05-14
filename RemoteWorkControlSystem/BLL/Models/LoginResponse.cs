@@ -12,5 +12,10 @@ namespace BLL.Models
 
         public int? Id { get; set; }
 
+        public string Email { get; set; }
+
+        public string JiraBaseUrl { get; set; }
+
+        public string JiraApiKey { get; set; }
     }
 }

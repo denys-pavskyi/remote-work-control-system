@@ -37,11 +37,12 @@ namespace BLL.Services
                 throw new RemoteWorkControlSystemException("User wasn't found");
             }
 
-            //TODO
-            //var token = await Task.Run(() => TokenHelper.GenerateToken(currentUser));
-
-            //return new LoginResponse { Username = currentUser.UserName, Id = currentUser.Id, Role = currentUser.Role.ToString(), Token = token };
-            return new LoginResponse { Id = currentUser.Id , Username = currentUser.UserName };
+            return new LoginResponse { Id = currentUser.Id ,
+                                       Username = currentUser.UserName, 
+                                       Email = currentUser.Email,
+                                       JiraApiKey = currentUser.JiraApiKey, 
+                                       JiraBaseUrl = currentUser.JiraBaseUrl
+            };
         }
 
 

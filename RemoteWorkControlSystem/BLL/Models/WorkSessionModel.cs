@@ -12,6 +12,10 @@ namespace BLL.Models
 
         public int ProjectMemberId { get; set; }
 
+        public string SprintKey { get; set; }
+
+        public string TaskKey { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }

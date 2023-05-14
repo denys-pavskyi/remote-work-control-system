@@ -62,8 +62,6 @@ namespace DAL.Repositories
                     .ThenInclude(x => x.EmployeeScreenActivities)
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.Project)
-                .Include(x => x.ProjectMember)
-                    .ThenInclude(x => x.TaskDurations)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
 
@@ -76,6 +74,8 @@ namespace DAL.Repositories
                     .ThenInclude(x => x.User)
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.EmployeeScreenActivities)
+                .Include(x => x.ProjectMember)
+                    .ThenInclude(x => x.Project)
                 .ToListAsync();
         }
 

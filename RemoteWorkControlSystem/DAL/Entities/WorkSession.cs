@@ -16,6 +16,12 @@ namespace DAL.Entities
         public DateTime StartDate { get; set; }
 
         [Required]
+        public string SprintKey { get; set; }
+
+        [Required]
+        public string TaskKey { get; set; }
+
+        [Required]
         public DateTime EndDate { get; set; }
 
         [Required]

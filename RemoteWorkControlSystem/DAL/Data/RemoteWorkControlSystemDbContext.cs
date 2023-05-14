@@ -18,7 +18,6 @@ namespace DAL.Data
 
         public DbSet<EmployeeScreenActivity> EmployeeScreenActivities { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
-        public DbSet<TaskDuration> TaskDurations { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<WorkSession> WorkSessions { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -36,16 +35,14 @@ namespace DAL.Data
                 .HasOne(x => x.User).WithMany(x => x.ProjectMembers).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<ProjectMember>()
                 .HasOne(x => x.Project).WithMany(x => x.ProjectMembers).HasForeignKey(x => x.ProjectId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<ProjectMember>()
-                .HasMany(x => x.TaskDurations).WithOne(x => x.ProjectMember).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<ProjectMember>()
                 .HasMany(x => x.WorkSessions).WithOne(x => x.ProjectMember).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<ProjectMember>()
                 .HasMany(x => x.EmployeeScreenActivities).WithOne(x => x.ProjectMember).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.Cascade);
 
 
-            modelBuilder.Entity<TaskDuration>()
-                .HasOne(x => x.ProjectMember).WithMany(x => x.TaskDurations).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<WorkSession>()
                 .HasOne(x => x.ProjectMember).WithMany(x => x.WorkSessions).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.NoAction);
 
@@ -66,8 +63,9 @@ namespace DAL.Data
                         LastName = "Pavskyi",
                         UserName = "denys_pavskyi2",
                         Password = "password1",
-                        Email = "den.pavski@gmai.com",
-                        JiraId = "-"
+                        Email = "dpavsky@gmail.com",
+                        JiraApiKey = "ATATT3xFfGF0qCmU8YttXaNQsWBmA9YhViRy3LxuWwdjCMNMORahF958vHZ6y7pMxV7ra5Z2LzBWbLKmFlIyfLDPx-u_2dVC9tSX-Tj7MRUu7nxY1-4ZsrGQRtiRUS4yhOdz5-Aj8bv9sTchuy167QoGtngvuFw0pFrndCMj6IRYFBOY7VMarWc=FC06E89B",
+                        JiraBaseUrl = "https://test-rwcs.atlassian.net/"
                     }
                     
             );

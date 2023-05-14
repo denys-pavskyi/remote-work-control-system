@@ -25,9 +25,12 @@ namespace DAL.Entities
         [Required, EmailAddress]
         public string Email { get; set; }
 
-        public string JiraId { get; set; }
+        public string JiraBaseUrl { get; set; }
+
+        public string JiraApiKey { get; set; }
 
         public List<ProjectMember> ProjectMembers { get; set; }
+
 
     }
 

@@ -10,7 +10,6 @@ namespace DAL.Interfaces
     {
         IEmployeeScreenActivityRepository EmployeeScreenActivityRepository { get; }
         IProjectMemberRepository ProjectMemberRepository { get; }
-        ITaskDurationRepository TaskDurationRepository { get; }
         IUserRepository UserRepository { get; }
         IWorkSessionRepository WorkSessionRepository { get; }
         IProjectRepository ProjectRepository { get; }

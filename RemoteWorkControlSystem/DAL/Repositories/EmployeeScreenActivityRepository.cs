@@ -59,8 +59,6 @@ namespace DAL.Repositories
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.User)
                 .Include(x => x.ProjectMember)
-                    .ThenInclude(x => x.TaskDurations)
-                .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.WorkSessions)
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.Project)
@@ -74,8 +72,6 @@ namespace DAL.Repositories
             return await _context.EmployeeScreenActivities
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.User)
-                .Include(x => x.ProjectMember)
-                    .ThenInclude(x => x.TaskDurations)
                 .Include(x => x.ProjectMember)
                     .ThenInclude(x => x.WorkSessions)
                 .Include(x => x.ProjectMember)

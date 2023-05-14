@@ -54,40 +54,6 @@ namespace BLL.Validations
         }
 
 
-        public static void TaskDurationModelValidation(TaskDurationModel model) {
-            
-            if (model == null)
-            {
-                throw new RemoteWorkControlSystemException("ProjectMember was null");
-            }
-
-            if (model.SprintId == null || model.SprintId == String.Empty)
-            {
-                throw new RemoteWorkControlSystemException("Wrong SprintId");
-            }
-
-            if (model.TaskId == null || model.TaskId == String.Empty)
-            {
-                throw new RemoteWorkControlSystemException("Wrong TaskId");
-            }
-
-            if(model.TimeSpent < 0f)
-            {
-                throw new RemoteWorkControlSystemException("Wrong TimeSpent");
-            }
-
-            if (model.ProjectMemberId < 0)
-            {
-                throw new RemoteWorkControlSystemException("Wrong ProjectMemberId");
-            }
-
-            if(model.StartDate > model.EndDate)
-            {
-                throw new RemoteWorkControlSystemException("Wrong Date");
-            }
-
-        }
-
         public static void WorkSessionModelValidation(WorkSessionModel model)
         {
             if (model.ProjectMemberId < 0)
@@ -134,9 +100,14 @@ namespace BLL.Validations
                 throw new RemoteWorkControlSystemException("Wrong Email");
             }
 
-            if (model.JiraId == null || model.JiraId == String.Empty)
+            if (model.JiraBaseUrl == null || model.JiraBaseUrl == String.Empty)
             {
-                throw new RemoteWorkControlSystemException("Wrong JiraId");
+                throw new RemoteWorkControlSystemException("Wrong JiraBaseUrl");
+            }
+
+            if (model.JiraApiKey== null || model.JiraApiKey == String.Empty)
+            {
+                throw new RemoteWorkControlSystemException("Wrong JiraApiKey");
             }
         }
 

@@ -6,6 +6,18 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
+      "Atlassian.SDK/13.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "RestSharp": "106.12.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Atlassian.Jira.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.0.0"
+          }
+        }
+      },
       "Microsoft.Win32.SystemEvents/6.0.0": {
         "runtime": {
           "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
@@ -27,6 +39,14 @@
           "lib/net6.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "13.0.0.0",
             "fileVersion": "13.0.3.27908"
+          }
+        }
+      },
+      "RestSharp/106.12.0": {
+        "runtime": {
+          "lib/netstandard2.0/RestSharp.dll": {
+            "assemblyVersion": "106.12.0.0",
+            "fileVersion": "106.12.0.0"
           }
         }
       },
@@ -58,6 +78,13 @@
     }
   },
   "libraries": {
+    "Atlassian.SDK/13.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6bmvMumb/WZdsLtAM+sJVh8tjr34CrkbuAAt+3GaVzf6dv7rRd0y5uT5MNRY8ZgxCgq3N9WT1fQM37fR+z7tdA==",
+      "path": "atlassian.sdk/13.0.0",
+      "hashPath": "atlassian.sdk.13.0.0.nupkg.sha512"
+    },
     "Microsoft.Win32.SystemEvents/6.0.0": {
       "type": "package",
       "serviceable": true,
@@ -71,6 +98,13 @@
       "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "RestSharp/106.12.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-irOsQHe5nTJB0BKxGQnTX1dsgCPl5dLTxvL7gbl98JiFPiHMN4wpFyUG/66ZpaFCsIrPKh6XwozWXlwYe9JwYQ==",
+      "path": "restsharp/106.12.0",
+      "hashPath": "restsharp.106.12.0.nupkg.sha512"
     },
     "System.Drawing.Common/6.0.0": {
       "type": "package",

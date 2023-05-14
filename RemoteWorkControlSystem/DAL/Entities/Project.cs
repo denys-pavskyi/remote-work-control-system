@@ -17,6 +17,9 @@ namespace DAL.Entities
         public string ProjectTitle { get; set; }
 
         [Required]
+        public string JiraDomain { get; set; }
+
+        [Required]
         public bool IsScreenActivityControlEnabled { get; set; }
 
         public float ScreenshotInterval { get; set; }
