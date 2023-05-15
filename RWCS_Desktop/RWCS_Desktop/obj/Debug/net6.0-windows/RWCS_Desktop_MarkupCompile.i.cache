@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RWCS_Desktop\RWCS_Desktop\App.xaml
-2-1312940909
+3-546873420
 
-9-1849935459
+10-58815246
 1981052892435
-AuthWindow.xaml;MainWindow.xaml;
+AuthWindow.xaml;MainWindow.xaml;SettingsWindow.xaml;
 
 True
 

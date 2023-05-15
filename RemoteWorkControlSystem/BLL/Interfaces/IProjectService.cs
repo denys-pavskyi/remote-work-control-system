@@ -9,5 +9,6 @@ namespace BLL.Interfaces
 {
     public interface IProjectService: ICrud<ProjectModel>
     {
+        Task<ProjectModel> GetByDomainAndProjectNameAsync(string domain_name, string project_key);
     }
 }

@@ -107,5 +107,20 @@ namespace API.Controllers
             await _service.DeleteAsync(id);
             return Ok(project);
         }
+
+        // Get project by domain name and project key
+        [HttpGet("Project/{domain_name}/{project_key}")]
+        public async Task<ActionResult<ProjectModel>> GetByDomainAndProjectKey(string domain_name, string project_key)
+        {
+            var project = await _service.GetByDomainAndProjectNameAsync(domain_name, project_key);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return new ObjectResult(project);
+            }
+        }
     }
 }

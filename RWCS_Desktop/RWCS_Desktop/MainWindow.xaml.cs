@@ -19,6 +19,7 @@ using Atlassian.Jira;
 using System.Net.Http;
 using Newtonsoft.Json;
 using RWCS_Desktop.Entities;
+using System.Windows.Threading;
 
 namespace RWCS_Desktop
 {
@@ -33,7 +34,19 @@ namespace RWCS_Desktop
         private string _email;
         private string _jiraBaseUrl;
         private string _jiraApiKey;
+
         private bool _hasProjects;
+        private bool _hasTasks;
+        private bool _hasSprints;
+
+        private string _selectedProjectKey;
+        private int _selectedProjectId;
+
+        private DispatcherTimer workSessionTimer;
+        private TimeSpan _currentSessionTime;
+
+        Dictionary<string, string> _projects = new Dictionary<string, string>();
+        Dictionary<string, (string title, string status)> _tasks = new Dictionary<string, (string title, string status)>();
 
         private bool _isConnected;
 
@@ -46,7 +59,15 @@ namespace RWCS_Desktop
             _jiraBaseUrl = jiraBaseUrl;
             _jiraApiKey = jiraApiKey;
             Initialization();
-            
+            InitializeWorkSessionTimer();
+
+        }
+
+        private void InitializeWorkSessionTimer()
+        {
+            workSessionTimer = new DispatcherTimer();
+            workSessionTimer.Interval = TimeSpan.FromSeconds(1d);
+            workSessionTimer.Tick += workSessionTick;
         }
 
         private async void Initialization()
@@ -54,6 +75,7 @@ namespace RWCS_Desktop
             usernameInfo.Content = Replace_UnderScore_WithTwo(_userName);
             jiraApiKey_TextBox.Text = _jiraApiKey;
             jiraBaseUrl_TextBox.Text = _jiraBaseUrl;
+            workSession_Button.Background = System.Windows.Media.Brushes.LightGray;
             email_TextBox.Text = _email;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             _isConnected = await TestConnection();
@@ -89,37 +111,169 @@ namespace RWCS_Desktop
                 return false;
             }
 
-            List<string> result = new List<string>();
+            try
+            {
+                
+                HttpClient client = new HttpClient();
+                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
+                string val = System.Convert.ToBase64String(plainTextBytes);
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+                HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + "rest/api/3/project/");
+                string resultContent = await response.Content.ReadAsStringAsync();
 
-            HttpClient client = new HttpClient();
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
-            string val = System.Convert.ToBase64String(plainTextBytes);
-            client.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-            HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + "rest/api/3/project/");
-            string resultContent = await response.Content.ReadAsStringAsync();
+
+                dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
+
+                if (jsonObj == null)
+                {
+                    return false;
+                }
+
+                _projects.Clear();
+                projectsList.Items.Clear();
+                foreach (var item in jsonObj)
+                {
+                    _projects.Add((string)item["key"], (string)item["name"]);
+                }
+
+                if (_projects.Count > 0)
+                {
+                    foreach (var item in _projects)
+                    {
+                        projectsList.Items.Add($"{item.Value} ({item.Key})");
+                    }
+                }
+                
+                
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалось отримати список проектів");
+                return false;
+                
+            }
             
+        }
 
-            dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
 
-            if(jsonObj == null)
+        private async Task<bool> GetJiraTasks()
+        {
+            if (!_isConnected)
             {
                 return false;
             }
 
-            foreach(var item in jsonObj)
+            try
             {
-                var tmp4 = (string)item["key"];
-                var tmp1 = item.GetType();
-                var tmp2 = item.GetProperty("key");
-                var tmp3 = tmp2.GetValue(item, null);
-                result.Add(item.GetType().GetProperty("key").GetValue(item, null));
+               
+                HttpClient client = new HttpClient();
+                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
+                string val = System.Convert.ToBase64String(plainTextBytes);
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+                HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + $"rest/api/3/search?project%3D{_selectedProjectKey}%20AND%20(status%3DDONE)");
+                string resultContent = await response.Content.ReadAsStringAsync();
+
+
+                dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
+
+                if (jsonObj == null)
+                {
+                    return false;
+                }
+
+                _tasks.Clear();
+                tasksList.Items.Clear();
+                var issues = jsonObj["issues"];
+                foreach (var issue in issues)
+                {
+                    string key = (string)issue["key"];
+                    string status = (string)issue["fields"]["status"]["name"];
+                    string title = (string)issue["fields"]["summary"];
+                    _tasks.Add(key, (title, status));  
+                }
+
+                if (_tasks.Count > 0)
+                {
+                    foreach (var item in _tasks)
+                    {
+                        tasksList.Items.Add($"{item.Value} ({item.Key})");
+                    }
+                }
+                
+
+
+                return true;
             }
+            catch
+            {
+                MessageBox.Show("Не вдалось отримати список завдань");
+                return false;
 
+            }
             
-
-            return true;
         }
 
+        private async Task<bool> GetJiraActiveSprints()
+        {
+            if (!_isConnected)
+            {
+                return false;
+            }
+
+            try
+            {
+
+                HttpClient client = new HttpClient();
+                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
+                string val = System.Convert.ToBase64String(plainTextBytes);
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
+                HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + $"rest/api/3/search?project%3D{_selectedProjectKey}%20AND%20(status%3DDONE)");
+                string resultContent = await response.Content.ReadAsStringAsync();
+
+
+                dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
+
+                if (jsonObj == null)
+                {
+                    return false;
+                }
+
+                _tasks.Clear();
+                tasksList.Items.Clear();
+                var issues = jsonObj["issues"];
+                foreach (var issue in issues)
+                {
+                    string key = (string)issue["key"];
+                    string status = (string)issue["fields"]["status"]["name"];
+                    string title = (string)issue["fields"]["summary"];
+                    _tasks.Add(key, (title, status));
+                }
+
+                if (_tasks.Count > 0)
+                {
+                    foreach (var item in _tasks)
+                    {
+                        tasksList.Items.Add($"{item.Value} ({item.Key})");
+                    }
+                }
+
+
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Не вдалось отримати список завдань");
+                return false;
+
+            }
+
+        }
+
+
+        
         private async Task<bool> TestConnection()
         {
             
@@ -157,20 +311,28 @@ namespace RWCS_Desktop
         private async Task UpdateJiraCredentials()
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(url + $"/user/{_userId}");
-
-            string resultContent = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<User>(resultContent);
-            if((result.JiraApiKey!= _jiraApiKey || result.JiraBaseUrl!= _jiraBaseUrl) || result.Email != _email)
+            try
             {
-                result.JiraApiKey = _jiraApiKey;
-                result.JiraBaseUrl = _jiraBaseUrl;
-                result.Email = _email;
+                HttpResponseMessage response = await client.GetAsync(url + $"/user/{_userId}");
 
-                var newUser = JsonConvert.SerializeObject(result);
-                var content = new StringContent(newUser, Encoding.UTF8, "application/json");
-                HttpResponseMessage response1 = await client.PutAsync(url + $"/user/{_userId}", content);
+                string resultContent = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<User>(resultContent);
+                if ((result.JiraApiKey != _jiraApiKey || result.JiraBaseUrl != _jiraBaseUrl) || result.Email != _email)
+                {
+                    result.JiraApiKey = _jiraApiKey;
+                    result.JiraBaseUrl = _jiraBaseUrl;
+                    result.Email = _email;
+
+                    var newUser = JsonConvert.SerializeObject(result);
+                    var content = new StringContent(newUser, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response1 = await client.PutAsync(url + $"/user/{_userId}", content);
+                }
             }
+            catch
+            {
+                SetStatusLabels("Помилка доступу до бази даних", System.Windows.Media.Brushes.Red);
+            }
+            
 
         }
 
@@ -243,16 +405,25 @@ namespace RWCS_Desktop
             _jiraBaseUrl = jiraBaseUrl_TextBox.Text;
         }
 
-        private void projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var tmp = ((Label)projectsList.SelectedItem).Content;
+            var select = projectsList.SelectedItem.ToString();
+            select = select.Split(" ")[1];
+            select = select.Substring(1, select.Length - 2);
+            _selectedProjectKey = select;
+            //await GetJiraTasks();
         }
 
         private async void refreshButton_Click(object sender, RoutedEventArgs e)
         {
+            Refresh();
+        }
+
+        public async void Refresh()
+        {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             UpdateCredentials();
-            
+
             _isConnected = await TestConnection();
             if (_isConnected)
             {
@@ -264,6 +435,43 @@ namespace RWCS_Desktop
             }
             _hasProjects = await GetJiraProjects();
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+
+        private void workSessionTick(object sender, EventArgs e)
+        {
+            _currentSessionTime+= new TimeSpan(0,0,1);
+
+            timeLabel.Content = _currentSessionTime.ToString();
+
+            
+        }
+
+        private void workSession_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!workSessionTimer.IsEnabled)
+            {
+                workSession_Button.Background = System.Windows.Media.Brushes.Red;
+                _currentSessionTime = new TimeSpan(0, 0, 0);
+                workSession_Button.Content = "Зупинити";
+
+                workSessionTimer.Start();
+            }
+            else
+            {
+                workSession_Button.Background = System.Windows.Media.Brushes.LightGray;
+                workSession_Button.Content = "Почати";
+                workSessionTimer.Stop();
+            }
+            
+            
+        }
+
+        private void projectSettings_Click(object sender, RoutedEventArgs e)
+        {
+            //GET PROJECT ID
+            SettingsWindow window = new SettingsWindow(1);
+            window.Show();
         }
     }
 }

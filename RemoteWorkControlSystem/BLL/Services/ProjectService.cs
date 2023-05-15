@@ -46,6 +46,11 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<ProjectModel>>(unmappedProjects);
         }
 
+        public Task<ProjectModel> GetByDomainAndProjectNameAsync(string domain_name, string project_key)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ProjectModel> GetByIdAsync(int id)
         {
             var unmappedProject = await _unitOfWork.ProjectRepository.GetByIdWithDetailsAsync(id);

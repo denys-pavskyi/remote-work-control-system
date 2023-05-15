@@ -1,21 +1,34 @@
 ﻿<Window x:Class="RWCS_Desktop.MainWindow"
+        WindowStartupLocation="CenterScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="1000">
     <Grid>
         <Button x:Name="screenshotButton" Content="Button" HorizontalAlignment="Left" Margin="655,186,0,0" VerticalAlignment="Top" Height="31" Width="65" Click="screenshotButton_Click"/>
         <TabControl Margin="0,10,0,0">
             <TabItem Header="Головна">
                 <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="projectsList" Height="168" VerticalAlignment="Top" Margin="38,56,444,0" SelectionChanged="projectsList_SelectionChanged"/>
-                    <Label Content="Оберіть проект:" HorizontalAlignment="Left" Margin="38,25,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="connectionStatus" Content="" HorizontalAlignment="Left" Margin="606,10,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Підключення:" HorizontalAlignment="Left" Margin="515,10,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="refreshButton" Content="Оновити" HorizontalAlignment="Left" Margin="236,8,0,0" VerticalAlignment="Top" Click="refreshButton_Click"/>
+                    <ListBox x:Name="projectsList" Height="149" VerticalAlignment="Top" Margin="42,74,672,0" SelectionChanged="projectsList_SelectionChanged"/>
+                    <Label Content="Оберіть проект:" HorizontalAlignment="Left" Margin="42,43,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="connectionStatus" Content="" HorizontalAlignment="Left" Margin="720,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Підключення:" HorizontalAlignment="Left" Margin="629,10,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="refreshButton" Content="Оновити" HorizontalAlignment="Left" Margin="216,23,0,0" VerticalAlignment="Top" Click="refreshButton_Click" Height="28" Width="56"/>
+                    <ListBox x:Name="tasksList" Margin="10,329,610,18" SelectionChanged="projectsList_SelectionChanged"/>
+                    <Button x:Name="workSession_Button" Content="Почати" HorizontalAlignment="Left" Margin="838,388,0,0" VerticalAlignment="Top" Height="41" Width="107" Click="workSession_Button_Click"/>
+                    <Label Content="Оберіть завдання:" HorizontalAlignment="Left" Margin="10,298,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Label x:Name="timeLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="691,380,0,0" VerticalAlignment="Top" FontSize="36"/>
+                    <Grid/>
+                    <Button x:Name="projectSettings" Content="Налаштування проекту" HorizontalAlignment="Left" Margin="341,108,0,0" VerticalAlignment="Top" Height="40" Width="145" Click="projectSettings_Click"/>
+                    <ListBox x:Name="sprintListBox" Margin="644,74,80,288"/>
+                    <Label Content="Оберіть активний спринт:" HorizontalAlignment="Left" Margin="644,43,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Змінити статус завдання" HorizontalAlignment="Center" Margin="0,339,0,0" VerticalAlignment="Top"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="425,372,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Button Content="Підтвердити" HorizontalAlignment="Left" Margin="441,408,0,0" VerticalAlignment="Top" Height="24" Width="88"/>
+                    <Label x:Name="infoLabel" Content="" HorizontalAlignment="Left" Margin="591,260,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="14"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Профіль">
