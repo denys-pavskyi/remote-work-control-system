@@ -8,6 +8,8 @@ namespace BLL.Models
 {
     public class ProjectModel
     {
+        public int Id { get; set; }
+
         public string ProjectKey { get; set; }
 
         public string ProjectTitle { get; set; }

@@ -91,15 +91,23 @@ namespace DAL.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Projects")
+                        .HasColumnType("int");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Users")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ProjectMembers");
                 });
@@ -152,10 +160,10 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "den.pavski@gmai.com",
+                            Email = "dpavsky@gmail.com",
                             FirstName = "Denys",
-                            JiraApiKey = "-",
-                            JiraBaseUrl = "-",
+                            JiraApiKey = "ATATT3xFfGF0zKVExXVUI7se6r5sZekIGQL9cgiwmLiWCgDXjstSgt48rtJhJvX71geSrJbOdWPz1c8I1tqWvSVWdI_gJfoAxDpS8XJYkF_SZG6wcLpV_Eu8c44v7436cgwvuJ63rjh-Zluy7Svvsrg_e6hRm-a83pg6AMyM47qZ9OGzFpeEUJQ=0CD67135",
+                            JiraBaseUrl = "test-rwcs",
                             LastName = "Pavskyi",
                             Password = "password1",
                             UserName = "denys_pavskyi2"
@@ -218,7 +226,7 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("ProjectMembers")
-                        .HasForeignKey("ProjectId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

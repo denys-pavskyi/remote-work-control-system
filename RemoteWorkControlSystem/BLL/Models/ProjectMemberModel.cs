@@ -13,13 +13,10 @@ namespace BLL.Models
 
         public int UserId { get; set; }
 
-        public string ProjectKey { get; set; }
-
-        public string ProjectTitle { get; set; }
+        public int ProjectId { get; set; }
 
         public UserRole Role { get; set; }
 
-        public List<int> TaskDurationIds { get; set; }
         public List<int> WorkSessionIds { get; set; }
         public List<int> EmployeeScreenActivityIds { get; set; }
     }

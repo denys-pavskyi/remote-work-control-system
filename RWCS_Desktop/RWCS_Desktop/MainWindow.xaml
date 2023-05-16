@@ -39,7 +39,7 @@
                     <Label Content="Jira API" HorizontalAlignment="Left" Margin="468,35,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
                     <Label Content="Email:" HorizontalAlignment="Left" Margin="447,79,0,0" VerticalAlignment="Top"/>
                     <Label Content="JiraApiKey:" HorizontalAlignment="Left" Margin="447,114,0,0" VerticalAlignment="Top"/>
-                    <Label Content="JiraBaseURL:" HorizontalAlignment="Left" Margin="447,216,0,0" VerticalAlignment="Top"/>
+                    <Label Content="JiraBaseDomain:" HorizontalAlignment="Left" Margin="431,216,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="jiraApiKey_TextBox" HorizontalAlignment="Left" Margin="527,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Height="80"/>
                     <TextBox x:Name="email_TextBox" HorizontalAlignment="Left" Margin="527,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>
                     <TextBox x:Name="jiraBaseUrl_TextBox" HorizontalAlignment="Left" Margin="527,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>

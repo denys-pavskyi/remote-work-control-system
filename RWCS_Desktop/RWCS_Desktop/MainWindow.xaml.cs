@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
-using Atlassian.Jira;
+
 using System.Net.Http;
 using Newtonsoft.Json;
 using RWCS_Desktop.Entities;
@@ -41,6 +41,9 @@ namespace RWCS_Desktop
 
         private string _selectedProjectKey;
         private int _selectedProjectId;
+        private ProjectMember _selectedProjectMember;
+
+        private Project _selectedProject;
 
         private DispatcherTimer workSessionTimer;
         private TimeSpan _currentSessionTime;
@@ -57,6 +60,7 @@ namespace RWCS_Desktop
             _userName = userName;
             _email = email;
             _jiraBaseUrl = jiraBaseUrl;
+            
             _jiraApiKey = jiraApiKey;
             Initialization();
             InitializeWorkSessionTimer();
@@ -118,7 +122,7 @@ namespace RWCS_Desktop
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
                 client.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-                HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + "rest/api/3/project/");
+                HttpResponseMessage response = await client.GetAsync($"https://{_jiraBaseUrl}.atlassian.net/" + "rest/api/3/project/");
                 string resultContent = await response.Content.ReadAsStringAsync();
 
 
@@ -289,7 +293,7 @@ namespace RWCS_Desktop
 
             try
             {
-                HttpResponseMessage response = await client.GetAsync(_jiraBaseUrl + "/rest/auth/1/session");
+                HttpResponseMessage response = await client.GetAsync($"https://{jiraBaseUrl_TextBox.Text}.atlassian.net" + "/rest/auth/1/session");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -402,28 +406,173 @@ namespace RWCS_Desktop
         {
             _email = email_TextBox.Text;
             _jiraApiKey = jiraApiKey_TextBox.Text;
-            _jiraBaseUrl = jiraBaseUrl_TextBox.Text;
+            _jiraBaseUrl = $"{jiraBaseUrl_TextBox.Text}";
         }
 
         private async void projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var select = projectsList.SelectedItem.ToString();
-            select = select.Split(" ")[1];
-            select = select.Substring(1, select.Length - 2);
-            _selectedProjectKey = select;
-            //await GetJiraTasks();
+            if (projectsList.SelectedItem != null)
+            {
+                HttpClient client = new HttpClient();
+                var select = projectsList.SelectedItem.ToString();
+                select = select.Split(" ")[1];
+                select = select.Substring(1, select.Length - 2);
+                _selectedProjectKey = select;
+
+                _selectedProject =  await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
+
+                if(_selectedProject == null)
+                {
+                    if (MessageBox.Show("Цього проекту ще нема в системі, завантажити?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+
+                        await CreateNewProject();
+
+                        _selectedProject = await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
+
+                    }
+                    else
+                    {
+                        projectsList.SelectedItem = null;
+                    }
+                }
+
+
+                _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProjectId);
+
+                if (_selectedProjectMember == null)
+                {
+                    ProjectMember new_project_member = new ProjectMember
+                    {
+                        EmployeeScreenActivityIds = new List<int>(),
+                        ProjectId = _selectedProject.Id,
+                        Role = UserRole.AgileManager,
+                        UserId = _userId,
+                        WorkSessionIds = new List<int>()
+                    };
+
+                    var newProjMember = JsonConvert.SerializeObject(new_project_member);
+                    var httpContent = new StringContent(newProjMember, Encoding.UTF8, "application/json");
+                    try
+                    {
+                        HttpResponseMessage response = await client.PostAsync(url + $"/ProjectMember", httpContent);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProjectId);
+                            infoLabel.Content = "";
+                        }
+                        
+                    }
+                    catch
+                    {
+                        infoLabel.Content = "Сталася помилка";
+                    }
+
+                }
+
+                //await GetJiraActiveSprints();
+            }
+
+        }
+
+        private async Task<bool> CreateNewProject()
+        {
+            HttpClient httpClient = new HttpClient();
+
+            Project new_project = new Project
+            {
+                ProjectKey = _selectedProjectKey,
+                IsScreenActivityControlEnabled = false,
+                ProjectMemberIds = new List<int>(),
+                JiraDomain = _jiraBaseUrl,
+                ProjectTitle = _projects[_selectedProjectKey],
+                ScreenshotInterval = 60
+            };
+
+            var newProj = JsonConvert.SerializeObject(new_project);
+            var httpContent = new StringContent(newProj, Encoding.UTF8, "application/json");
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsync(url + $"/project", httpContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        private async Task<ProjectMember> GetProjectMemberWith_UserId_And_ProjectId(int userId, int projectId)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url + $"/projectMember/{userId}/{projectId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string resultContent = await response.Content.ReadAsStringAsync();
+                    ProjectMember projectMember = JsonConvert.DeserializeObject<ProjectMember>(resultContent);
+                    infoLabel.Content = "";
+                    return projectMember;
+                }
+
+            }
+            catch
+            {
+                infoLabel.Content = "Сталася помилка";
+                return null;
+            }
+            return null;
+        }
+
+        private async Task<Project> GetProjectInfoWith_Domain_And_ProjectKey(string domain, string project_key)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url + $"/project/{domain}/{project_key}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string resultContent = await response.Content.ReadAsStringAsync();
+                    Project project = JsonConvert.DeserializeObject<Project>(resultContent);
+                    infoLabel.Content = "";
+                    return project;
+                }
+                
+            }
+            catch
+            {
+                infoLabel.Content = "Сталася помилка";
+                return null;
+            }
+            return null;
         }
 
         private async void refreshButton_Click(object sender, RoutedEventArgs e)
         {
-            Refresh();
+            await Refresh();
         }
 
-        public async void Refresh()
+        public async Task Refresh()
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             UpdateCredentials();
 
+            projectsList.SelectedItem = null;
             _isConnected = await TestConnection();
             if (_isConnected)
             {

@@ -29,7 +29,6 @@ namespace BLL.Services
         {
             ModelsValidation.ProjectMemberModelValidation(model);
             var mappedProjectMember = _mapper.Map<ProjectMember>(model);
-
             await _unitOfWork.ProjectMemberRepository.AddAsync(mappedProjectMember);
             await _unitOfWork.SaveAsync();
         }
@@ -58,6 +57,13 @@ namespace BLL.Services
             var mapped = _mapper.Map<ProjectMember>(model);
             _unitOfWork.ProjectMemberRepository.Update(mapped);
             await _unitOfWork.SaveAsync();
+        }
+
+        public async Task<ProjectMemberModel> GetByUserId_And_ProjectId_Async(int userId, int projectId)
+        {
+            var unmappedProjectMembers = await _unitOfWork.ProjectMemberRepository.GetAllAsync();
+            var unmappedProjectMember = unmappedProjectMembers.FirstOrDefault(x => x.UserId == userId && x.ProjectId == projectId);
+            return _mapper.Map<ProjectMemberModel>(unmappedProjectMember);
         }
     }
 }

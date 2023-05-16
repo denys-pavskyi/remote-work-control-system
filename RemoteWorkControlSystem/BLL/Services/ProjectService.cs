@@ -46,9 +46,11 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<ProjectModel>>(unmappedProjects);
         }
 
-        public Task<ProjectModel> GetByDomainAndProjectNameAsync(string domain_name, string project_key)
+        public async Task<ProjectModel> GetByDomainAndProjectNameAsync(string domain_name, string project_key)
         {
-            throw new NotImplementedException();
+            var unmappedProjects = await _unitOfWork.ProjectRepository.GetAllAsync();
+            var unmappedProject = unmappedProjects.FirstOrDefault(x => x.JiraDomain == domain_name && x.ProjectKey == project_key);
+            return _mapper.Map<ProjectModel>(unmappedProject);
         }
 
         public async Task<ProjectModel> GetByIdAsync(int id)
@@ -64,5 +66,8 @@ namespace BLL.Services
             _unitOfWork.ProjectRepository.Update(mapped);
             await _unitOfWork.SaveAsync();
         }
+
+        
+
     }
 }

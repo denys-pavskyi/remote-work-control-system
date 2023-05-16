@@ -41,14 +41,9 @@ namespace BLL.Validations
                 throw new RemoteWorkControlSystemException("Wrong UserId");
             }
 
-            if (model.ProjectKey == null || model.ProjectKey == String.Empty)
+            if (model.ProjectId < 0)
             {
-                throw new RemoteWorkControlSystemException("Wrong ProjectKey");
-            }
-
-            if (model.ProjectTitle == null || model.ProjectTitle == String.Empty)
-            {
-                throw new RemoteWorkControlSystemException("Wrong ProjectTitle");
+                throw new RemoteWorkControlSystemException("Wrong ProjectId");
             }
 
         }

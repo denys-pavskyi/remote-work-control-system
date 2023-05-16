@@ -21,11 +21,14 @@ namespace BLL
             CreateMap<ProjectMember, ProjectMemberModel>()
                 .ForMember(pmm => pmm.WorkSessionIds, pm => pm.MapFrom(x => x.WorkSessions.Select(x => x.Id)))
                 .ForMember(pmm => pmm.EmployeeScreenActivityIds, pm => pm.MapFrom(x => x.EmployeeScreenActivities.Select(x => x.Id)));
+                
             
 
             CreateMap<ProjectMemberModel, ProjectMember>()
-                .ForMember(pm => pm.User, pmm => pmm.UseDestinationValue());
-
+                .ForMember(pm => pm.User, pmm => pmm.UseDestinationValue())
+                .ForMember(pm => pm.Project, pmm => pmm.UseDestinationValue())
+                .ForMember(pm => pm.EmployeeScreenActivities, pmm => new List<EmployeeScreenActivity>())
+                .ForMember(pm => pm.WorkSessions, pmm => new List<WorkSession>());
 
 
             CreateMap<User, UserModel>()

@@ -47,7 +47,7 @@ namespace DAL.Data
                 .HasOne(x => x.ProjectMember).WithMany(x => x.WorkSessions).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
-                .HasMany(x => x.ProjectMembers).WithOne(x => x.User).HasForeignKey(x => x.ProjectId).OnDelete(DeleteBehavior.Cascade);
+                .HasMany(x => x.ProjectMembers).WithOne(x => x.User).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
 
 
             SeedData(modelBuilder);
@@ -64,8 +64,8 @@ namespace DAL.Data
                         UserName = "denys_pavskyi2",
                         Password = "password1",
                         Email = "dpavsky@gmail.com",
-                        JiraApiKey = "ATATT3xFfGF0qCmU8YttXaNQsWBmA9YhViRy3LxuWwdjCMNMORahF958vHZ6y7pMxV7ra5Z2LzBWbLKmFlIyfLDPx-u_2dVC9tSX-Tj7MRUu7nxY1-4ZsrGQRtiRUS4yhOdz5-Aj8bv9sTchuy167QoGtngvuFw0pFrndCMj6IRYFBOY7VMarWc=FC06E89B",
-                        JiraBaseUrl = "https://test-rwcs.atlassian.net/"
+                        JiraApiKey = "ATATT3xFfGF0zKVExXVUI7se6r5sZekIGQL9cgiwmLiWCgDXjstSgt48rtJhJvX71geSrJbOdWPz1c8I1tqWvSVWdI_gJfoAxDpS8XJYkF_SZG6wcLpV_Eu8c44v7436cgwvuJ63rjh-Zluy7Svvsrg_e6hRm-a83pg6AMyM47qZ9OGzFpeEUJQ=0CD67135",
+                        JiraBaseUrl = "test-rwcs"
                     }
                     
             );

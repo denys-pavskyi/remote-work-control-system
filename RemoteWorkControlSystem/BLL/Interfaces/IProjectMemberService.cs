@@ -9,5 +9,6 @@ namespace BLL.Interfaces
 {
     public interface IProjectMemberService : ICrud<ProjectMemberModel>
     {
+        Task<ProjectMemberModel> GetByUserId_And_ProjectId_Async(int userId, int projectId);
     }
 }

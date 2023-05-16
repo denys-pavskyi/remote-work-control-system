@@ -50,7 +50,22 @@ namespace API.Controllers
             }
         }
 
+        // GET api/<ProjectMemberController>/5
+        [HttpGet("ProjectMember/{userId}/{projectId}")]
+        public async Task<ActionResult<ProjectMemberModel>> GetById(int userId, int projectId)
+        {
+            var projectMember = await _service.GetByUserId_And_ProjectId_Async(userId, projectId);
+            if (projectMember == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return new ObjectResult(projectMember);
+            }
+        }
 
+        
 
         // POST api/ProjectMember
         [HttpPost("ProjectMember")]
