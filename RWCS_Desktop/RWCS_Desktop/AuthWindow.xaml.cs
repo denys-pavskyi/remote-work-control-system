@@ -72,6 +72,9 @@ namespace RWCS_Desktop
 
         }
 
-        
+        private void registrationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

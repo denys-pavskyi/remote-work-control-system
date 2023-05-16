@@ -91,16 +91,10 @@ namespace DAL.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Projects")
-                        .HasColumnType("int");
-
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Users")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

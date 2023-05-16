@@ -22,10 +22,8 @@ namespace DAL.Entities
         [Required]
         public UserRole Role { get; set; }
 
-        [ForeignKey("Users")]
         public User User { get; set; }
 
-        [ForeignKey("Projects")]
         public Project Project { get; set; }
         public List<WorkSession> WorkSessions { get; set; }
         public List<EmployeeScreenActivity> EmployeeScreenActivities { get; set; }
