@@ -51,6 +51,7 @@ namespace BLL.Services
             var unmappedProjects = await _unitOfWork.ProjectRepository.GetAllAsync();
             var unmappedProject = unmappedProjects.FirstOrDefault(x => x.JiraDomain == domain_name && x.ProjectKey == project_key);
             return _mapper.Map<ProjectModel>(unmappedProject);
+
         }
 
         public async Task<ProjectModel> GetByIdAsync(int id)

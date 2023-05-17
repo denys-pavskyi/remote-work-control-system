@@ -22,7 +22,7 @@ namespace DAL.Entities
         [Required]
         public bool IsScreenActivityControlEnabled { get; set; }
 
-        public float ScreenshotInterval { get; set; }
+        public int ScreenshotInterval { get; set; }
     
         public List<ProjectMember> ProjectMembers { get; set; }
     }

@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Atlassian.SDK" Version="13.0.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>

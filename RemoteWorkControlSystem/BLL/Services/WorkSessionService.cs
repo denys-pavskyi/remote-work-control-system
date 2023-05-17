@@ -30,8 +30,16 @@ namespace BLL.Services
             ModelsValidation.WorkSessionModelValidation(model);
             var mappedWorkSession = _mapper.Map<WorkSession>(model);
 
-            await _unitOfWork.WorkSessionRepository.AddAsync(mappedWorkSession);
-            await _unitOfWork.SaveAsync();
+            try
+            {
+                await _unitOfWork.WorkSessionRepository.AddAsync(mappedWorkSession);
+                await _unitOfWork.SaveAsync();
+            }catch(Exception e)
+            {
+
+            }
+            /*await _unitOfWork.WorkSessionRepository.AddAsync(mappedWorkSession);
+            await _unitOfWork.SaveAsync();*/
         }
 
         public async Task DeleteAsync(int modelId)

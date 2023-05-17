@@ -16,7 +16,7 @@ namespace BLL.Models
 
         public bool IsScreenActivityControlEnabled { get; set; }
 
-        public float ScreenshotInterval { get; set; }
+        public int ScreenshotInterval { get; set; }
 
         public string JiraDomain { get; set; }
 

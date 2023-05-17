@@ -51,7 +51,7 @@ namespace RWCS_Desktop
                     var result = JsonConvert.DeserializeObject<LoginResponse>(resultContent);
                     Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
 
-                    MainWindow window = new MainWindow(result.Id, result.Username, result.Email, result.JiraApiKey, result.JiraBaseUrl);
+                    MainWindow window = new MainWindow(result.Id, result.Username, result.Email, result.JiraApiKey, result.JiraBaseUrl, new TimeSpan(0,0,0));
                     this.Close();
                     window.Show();
                 }
@@ -74,7 +74,9 @@ namespace RWCS_Desktop
 
         private void registrationButton_Click(object sender, RoutedEventArgs e)
         {
-
+            RegistrationWindow newWindow = new RegistrationWindow();
+            newWindow.Show();
+            this.Close();
         }
     }
 }

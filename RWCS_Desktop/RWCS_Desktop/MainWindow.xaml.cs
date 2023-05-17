@@ -20,6 +20,10 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using RWCS_Desktop.Entities;
 using System.Windows.Threading;
+using System.Drawing.Drawing2D;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
+using Azure.Storage.Blobs;
 
 namespace RWCS_Desktop
 {
@@ -29,6 +33,7 @@ namespace RWCS_Desktop
     public partial class MainWindow : Window
     {
         public string url = "https://localhost:44395/api";
+        private string _screenshotPath = "DefaultEndpointsProtocol=https;AccountName=rwcsblopcontainer;AccountKey=HJ+6AUcDqM3cAIU4q5mdGefzzNMlYicVHkq4mQqTX4sOvDa9eQdjjd7PyeyDbpuhSb7cetAmAedt+ASty3fwpA==;EndpointSuffix=core.windows.net";
         private int _userId;
         private string _userName;
         private string _email;
@@ -42,30 +47,41 @@ namespace RWCS_Desktop
         private string _selectedProjectKey;
         private ProjectMember _selectedProjectMember;
         private JiraTask _selectedTask;
+        private JiraTask _workSessionTask;
+
+        private string _foldername = "";
+        private DateTime _startDate = new DateTime();
 
         private Project _selectedProject;
 
         private DispatcherTimer workSessionTimer;
         private TimeSpan _currentSessionTime;
 
+        private List<ProjectMember> _selectedProjectMembers = new List<ProjectMember>();
+        private ProjectMember _memberToChange = new ProjectMember();
+
         Dictionary<string, string> _projects = new Dictionary<string, string>();
         List<JiraTask> _allTasks = new List<JiraTask>();
-       
-        
+
+        private bool _IsScreenActivityControlEnabled = false;
+        private float _interval = 15f;
+
+
 
         private bool _isConnected;
 
-        public MainWindow(int userId, string userName, string email, string jiraApiKey, string jiraBaseUrl)
+        public MainWindow(int userId, string userName, string email, string jiraApiKey, string jiraBaseUrl, TimeSpan timer)
         {
             InitializeComponent();
             _userId = userId;
             _userName = userName;
             _email = email;
             _jiraBaseUrl = jiraBaseUrl;
-            
+            timeLabel.Content = timer.ToString();
             _jiraApiKey = jiraApiKey;
             Initialization();
             InitializeWorkSessionTimer();
+            usersTabItem.Visibility = Visibility.Hidden;
 
         }
 
@@ -93,8 +109,11 @@ namespace RWCS_Desktop
             {
                 SetStatusLabels("Authorization failed", System.Windows.Media.Brushes.Red);
             }
-
+            rolePicker.Items.Add("Developer");
+            rolePicker.Items.Add("AgileManager");
+            rolePicker.SelectedItem = "AgileManager";
             _hasProjects = await GetJiraProjects();
+
 
             
 
@@ -337,25 +356,41 @@ namespace RWCS_Desktop
             return new_str;
         }
 
-        private void screenshotButton_Click(object sender, RoutedEventArgs e)
+        
+
+
+
+        public static byte[] ImageToByte(System.Drawing.Image img)
         {
-            double screenLeft = SystemParameters.VirtualScreenLeft;
-            double screenTop = SystemParameters.VirtualScreenTop;
-            double screenWidth = SystemParameters.VirtualScreenWidth;
-            double screenHeight = SystemParameters.VirtualScreenHeight;
-
-            using (Bitmap bmp = new Bitmap((int)screenWidth,
-                (int)screenHeight))
+            using (var stream = new MemoryStream())
             {
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmmss") + ".png";
-                    Opacity = .0;
-                    g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
-                    bmp.Save("C:\\Users\\denpa\\Desktop\\Диплом\\screenshots\\" + filename);
-                    Opacity = 1;
-                }
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
 
+        private Bitmap Resize(byte[] wordBytes)
+        {
+            using (MemoryStream ms = new MemoryStream(wordBytes))
+            {
+                float width = 3840;
+                float height = 2160;
+                var brush = new SolidBrush(System.Drawing.Color.White);
+
+                var rawImage = System.Drawing.Image.FromStream(ms);
+                float scale = Math.Min(width / rawImage.Width, height / rawImage.Height);
+                var scaleWidth = (int)(rawImage.Width * scale);
+                var scaleHeight = (int)(rawImage.Height * scale);
+                var scaledBitmap = new Bitmap(scaleWidth, scaleHeight);
+
+                Graphics graph = Graphics.FromImage(scaledBitmap);
+                graph.InterpolationMode = InterpolationMode.High;
+                graph.CompositingQuality = CompositingQuality.HighQuality;
+                graph.SmoothingMode = SmoothingMode.AntiAlias;
+                graph.FillRectangle(brush, new RectangleF(0, 0, width, height));
+                graph.DrawImage(rawImage, new System.Drawing.Rectangle(0, 0, scaleWidth, scaleHeight));
+
+                return scaledBitmap;
             }
         }
 
@@ -414,6 +449,7 @@ namespace RWCS_Desktop
                         await CreateNewProject();
 
                         _selectedProject = await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
+                        infoLabel.Content = "";
                         Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;                       
 
 
@@ -470,23 +506,120 @@ namespace RWCS_Desktop
                     if(_selectedProjectMember!= null && _selectedProjectMember.Role == UserRole.AgileManager)
                     {
                         usersTabItem.Visibility = Visibility.Visible;
-                        generateReport.Visibility = Visibility.Visible;
+                        projectSettings.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         usersTabItem.Visibility = Visibility.Hidden;
-                        generateReport.Visibility = Visibility.Hidden;
+                        projectSettings.Visibility = Visibility.Hidden;
                     }
 
                     if (_selectedProjectMember != null && _selectedProject != null)
                     {
                         await GetJiraTasksAndSprints();
+
+                        if (_selectedProjectMember.Role == UserRole.AgileManager)
+                        {
+                            usersTabItem.Visibility = Visibility.Visible;
+                            await GetProjecMembersWithRoles();
+
+                        }
                     }
                 }
                 
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
 
 
+            }
+
+        }
+
+
+        public async Task GetProjecMembersWithRoles()
+        {
+            if (await GetProjectMembers())
+            {
+                
+                HttpClient httpClient = new HttpClient();
+                List<string> text_users = new List<string>();
+                foreach (var projectMember in _selectedProjectMembers)
+                {
+                    HttpResponseMessage response = await httpClient.GetAsync(url + $"/User/{projectMember.UserId}");
+
+                    string resultContent = await response.Content.ReadAsStringAsync();
+
+
+                    User user = JsonConvert.DeserializeObject<User>(resultContent);
+                   
+
+                    text_users.Add($"{projectMember.Id}| {user.FirstName} {user.LastName}   Role: {projectMember.Role}");
+
+                }
+                if(usersListBox.Items.Count > 0)
+                {
+                    usersListBox.Items.Clear();
+                }
+                
+                foreach(var user in text_users)
+                {
+                    usersListBox.Items.Add(user);
+                }
+
+            }
+        }
+        
+
+        private async Task<bool> GetProjectMembers()
+        {
+            HttpClient httpClient = new HttpClient();
+
+        
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(url + $"/projectMembers/project/{_selectedProject.Id}");
+   
+                if (response.IsSuccessStatusCode)
+                {
+                    string resultContent = await response.Content.ReadAsStringAsync();
+
+
+                    dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
+                    _selectedProjectMembers.Clear();
+                    foreach(var item in jsonObj)
+                    {
+                        int id = item["id"];
+                        int userId = item["userId"];
+                        int projectId = item["projectId"];
+                        int role_id = item["role"];
+                        UserRole Role = UserRole.AgileManager;
+                        if (role_id == 0)
+                        {
+                            Role = UserRole.Developer;
+                        }
+
+                        ProjectMember member = new ProjectMember()
+                        {
+                            Id = id,
+                            Role = Role,
+                            EmployeeScreenActivityIds = new List<int>(),
+                            UserId = userId,
+                            ProjectId = projectId,
+                            WorkSessionIds = new List<int>()
+                        };
+
+                        _selectedProjectMembers.Add(member);
+                    }
+                    infoLabel.Content = "";
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
 
         }
@@ -591,8 +724,9 @@ namespace RWCS_Desktop
             tasksList.Items.Clear();
             sprintListBox.Items.Clear();
             selectedTaskTextBlock.Text = "";
+            infoLabel.Content = "";
             usersTabItem.Visibility = Visibility.Hidden;
-            generateReport.Visibility = Visibility.Hidden;
+            projectSettings.Visibility = Visibility.Hidden;
             _selectedProject = null;
             _selectedProjectKey = null;
             _selectedProjectMember = null;
@@ -606,24 +740,87 @@ namespace RWCS_Desktop
 
        
 
-        private void workSessionTick(object sender, EventArgs e)
+        private async void workSessionTick(object sender, EventArgs e)
         {
             _currentSessionTime+= new TimeSpan(0,0,1);
 
             timeLabel.Content = _currentSessionTime.ToString();
 
+            if(_IsScreenActivityControlEnabled && _currentSessionTime.TotalSeconds % _interval == 0)
+            {
+                HttpClient client = new HttpClient();
+                double screenLeft = SystemParameters.VirtualScreenLeft;
+                double screenTop = SystemParameters.VirtualScreenTop;
+                double screenWidth = SystemParameters.VirtualScreenWidth;
+                double screenHeight = SystemParameters.VirtualScreenHeight;
+
+
+                using (Bitmap bmp = new Bitmap((int)screenWidth, (int)screenHeight))
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmmss") + ".png";
+                        
+                        Opacity = .0;
+                        g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
+
+
+                        byte[] picture = ImageToByte(bmp);
+
+                        BlobContainerClient blobContainerClient = new BlobContainerClient(_screenshotPath, "bloprwcs");
+
+
+                        MemoryStream stream = new MemoryStream(picture);
+                        stream.Position = 0;
+                        await blobContainerClient.UploadBlobAsync($"{_foldername}/{filename}", stream);
+
+
+                       
+                    }
+
+                }
+            }
             
         }
 
+
         private void workSession_Button_Click(object sender, RoutedEventArgs e)
         {
+            HttpClient client = new HttpClient();
             if (!workSessionTimer.IsEnabled)
             {
-                workSession_Button.Background = System.Windows.Media.Brushes.Red;
-                _currentSessionTime = new TimeSpan(0, 0, 0);
-                workSession_Button.Content = "Зупинити";
+                
 
-                workSessionTimer.Start();
+                if (_selectedTask != null)
+                {
+                    infoLabel.Content = "";
+                    workSession_Button.Background = System.Windows.Media.Brushes.Red;
+                    _currentSessionTime = new TimeSpan(0, 0, 0);
+                    workSession_Button.Content = "Зупинити";
+                    _IsScreenActivityControlEnabled = _selectedProject.IsScreenActivityControlEnabled;
+                    _workSessionTask = _selectedTask;
+                    _startDate = DateTime.Now;
+                    
+                    _interval = _selectedProject.ScreenshotInterval;
+                    
+
+                    if (_IsScreenActivityControlEnabled)
+                    {
+                        _foldername = _startDate.ToString("ddMMyyyy-hhmmss") + $"_{_workSessionTask.SprintName}_{_workSessionTask.TaskKey}_{_userId}";
+                        CreateNewScreenshotFolder();
+                    }
+
+                    TimerWindow timer = new TimerWindow(_userId, _userName, _email, _jiraApiKey, _jiraBaseUrl, _workSessionTask, _selectedProjectMember, _startDate);
+                    timer.Show();
+                    this.Close();
+                    workSessionTimer.Start();
+                }
+                else
+                {
+                    infoLabel.Content = "Потрібено обрати завдання";
+                }
+
+                
             }
             else
             {
@@ -635,10 +832,58 @@ namespace RWCS_Desktop
             
         }
 
+        private async void CreateNewScreenshotFolder()
+        {
+            HttpClient client = new HttpClient();
+            
+            EmployeeScreenActivity employeeScreenActivity = new EmployeeScreenActivity() { Date = _startDate, ScreenshotURL = _foldername, ProjectMemberId = _selectedProjectMember.Id};
+
+            var json = JsonConvert.SerializeObject(employeeScreenActivity);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync(url + "/EmployeeScreenActivity", content);
+
+            }
+            catch
+            {
+                infoLabel.Content = "Помилка підключення до сервера";
+            }
+
+        }
+
+        private async void CreateNewWorkSession()
+        {
+            HttpClient client = new HttpClient();
+
+            DateTime endDate = DateTime.Now;
+            WorkSession workSession = new WorkSession()
+            {
+                ProjectMemberId = _selectedProjectMember.Id,
+                StartDate = _startDate,
+                EndDate = endDate,
+                SprintKey = _workSessionTask.SprintName,
+                TaskKey = _workSessionTask.TaskKey,
+                WorkTime = (float)(endDate.Subtract(_startDate)).Hours + (float)(endDate.Subtract(_startDate)).Minutes
+            };
+            var json = JsonConvert.SerializeObject(workSession);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync(url + "/WorkSession", content);
+
+            }
+            catch
+            {
+                infoLabel.Content = "Помилка підключення до сервера";
+            }
+        }
+
         private void projectSettings_Click(object sender, RoutedEventArgs e)
         {
-            //GET PROJECT ID
-            SettingsWindow window = new SettingsWindow(1);
+            SettingsWindow window = new SettingsWindow(_selectedProject);
             window.Show();
         }
 
@@ -665,6 +910,66 @@ namespace RWCS_Desktop
         private void tasksList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedTaskTextBlock.Text = $"Обрано завдання{tasksList.SelectedItem} з спринту {sprintListBox.SelectedItem}";
+
+            string taskKey = tasksList.SelectedItem.ToString().Split(":")[0];
+            taskKey = taskKey.Trim().Substring(1, taskKey.Length-2);
+            _selectedTask = _allTasks.FirstOrDefault(x => x.TaskKey == taskKey);
+        }
+
+        private void usersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (usersListBox.Items.Count > 0)
+            {
+                userLabel.Content = usersListBox.SelectedItem;
+
+                _memberToChange = _selectedProjectMembers[usersListBox.SelectedIndex];
+            }
+            
+        }
+
+        private async void changeRoleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_memberToChange != null)
+            {
+                UserRole role = UserRole.AgileManager;
+                if(rolePicker.SelectedItem == "Developer")
+                {
+                    role = UserRole.Developer;
+                }
+                await ChangeProjectMemberRole(role);
+                
+                await GetProjecMembersWithRoles();
+            }
+        }
+
+        private async Task<bool> ChangeProjectMemberRole(UserRole newRole)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            ProjectMember newdata = _memberToChange;
+            newdata.Role = newRole;
+
+            var newProj = JsonConvert.SerializeObject(newdata);
+            var httpContent = new StringContent(newProj, Encoding.UTF8, "application/json");
+            try
+            {
+                HttpResponseMessage response = await httpClient.PutAsync(url + $"/projectMember/{newdata.Id}", httpContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
         }
     }
 }

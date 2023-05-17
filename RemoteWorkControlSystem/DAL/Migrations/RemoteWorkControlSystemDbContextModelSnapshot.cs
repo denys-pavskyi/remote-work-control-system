@@ -72,8 +72,8 @@ namespace DAL.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<float>("ScreenshotInterval")
-                        .HasColumnType("real");
+                    b.Property<int>("ScreenshotInterval")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -161,6 +161,17 @@ namespace DAL.Migrations
                             LastName = "Pavskyi",
                             Password = "password1",
                             UserName = "denys_pavskyi2"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "denchik.arasty000@gmail.com",
+                            FirstName = "Denis",
+                            JiraApiKey = "ATATT3xFfGF04dWC_ws0K9fPjFB1KIZtP4TSisM-yAKQzQEn6hGqwElrEraynNKfFcz6KVx7Kv1dYIML9CdtqdTfhSAcCJHTDzclxOSrRQ3UUP1KFpOAABfKVYvg6qxd9Y3ni9WBDmTkmtVY56fOvebM0cYh-wiHBtjNwI0rSVNK7rQW9wccXig=6019D62C",
+                            JiraBaseUrl = "test-rwcs",
+                            LastName = "Test",
+                            Password = "password1",
+                            UserName = "denis_test"
                         });
                 });
 

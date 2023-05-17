@@ -65,5 +65,11 @@ namespace BLL.Services
             var unmappedProjectMember = unmappedProjectMembers.FirstOrDefault(x => x.UserId == userId && x.ProjectId == projectId);
             return _mapper.Map<ProjectMemberModel>(unmappedProjectMember);
         }
+
+        public async Task<IEnumerable<ProjectMemberModel>> GetByProjectId(int projectId)
+        {
+            IEnumerable<ProjectMember> unmappedProjectMembers = await _unitOfWork.ProjectMemberRepository.GetAllWithDetailsAsync();
+            return _mapper.Map<IEnumerable<ProjectMemberModel>>(unmappedProjectMembers.Where(x => x.ProjectId == projectId));
+        }
     }
 }

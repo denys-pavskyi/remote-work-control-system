@@ -35,6 +35,28 @@ namespace API.Controllers
 
         }
 
+
+        
+
+        // GET: api/<ProjectMemberController>
+        [HttpGet]
+        [Route("ProjectMembers/project/{projectId}")]
+        public async Task<ActionResult<IEnumerable<ProjectMemberModel>>> GetByProjectId(int projectId)
+        {
+            var projectMembers = await _service.GetByProjectId(projectId);
+
+            if (projectMembers == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+
+                return new ObjectResult(projectMembers);
+            }
+
+        }
+
         // GET api/<ProjectMemberController>/5
         [HttpGet("ProjectMember/{id}")]
         public async Task<ActionResult<ProjectMemberModel>> GetById(int id)

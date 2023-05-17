@@ -1,0 +1,15 @@
+﻿<Window x:Class="RWCS_Desktop.TimerWindow"
+        WindowStartupLocation="CenterScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RWCS_Desktop"
+        mc:Ignorable="d"
+        Title="TimerWindow" Height="340" Width="500">
+    <Grid>
+        <Button x:Name="stopTimerButton" Content="Стоп" HorizontalAlignment="Left" Margin="190,182,0,0" VerticalAlignment="Top" Height="42" Width="95" Click="stopTimerButton_Click" FontWeight="Bold" FontSize="16" Background="#FFED6E6E"/>
+        <Label x:Name="timeLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="166,118,0,0" VerticalAlignment="Top" FontSize="36"/>
+
+    </Grid>
+</Window>

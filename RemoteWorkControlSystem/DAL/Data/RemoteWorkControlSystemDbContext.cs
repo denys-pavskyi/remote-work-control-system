@@ -66,9 +66,31 @@ namespace DAL.Data
                         Email = "dpavsky@gmail.com",
                         JiraApiKey = "ATATT3xFfGF0zKVExXVUI7se6r5sZekIGQL9cgiwmLiWCgDXjstSgt48rtJhJvX71geSrJbOdWPz1c8I1tqWvSVWdI_gJfoAxDpS8XJYkF_SZG6wcLpV_Eu8c44v7436cgwvuJ63rjh-Zluy7Svvsrg_e6hRm-a83pg6AMyM47qZ9OGzFpeEUJQ=0CD67135",
                         JiraBaseUrl = "test-rwcs"
+                    },
+
+                    new User
+                    {
+                        Id = 2,
+                        FirstName = "Denis",
+                        LastName = "Test",
+                        UserName = "denis_test",
+                        Password = "password1",
+                        Email = "denchik.arasty000@gmail.com",
+                        JiraApiKey = "ATATT3xFfGF04dWC_ws0K9fPjFB1KIZtP4TSisM-yAKQzQEn6hGqwElrEraynNKfFcz6KVx7Kv1dYIML9CdtqdTfhSAcCJHTDzclxOSrRQ3UUP1KFpOAABfKVYvg6qxd9Y3ni9WBDmTkmtVY56fOvebM0cYh-wiHBtjNwI0rSVNK7rQW9wccXig=6019D62C",
+                        JiraBaseUrl = "test-rwcs"
                     }
-                    
+
+
             );
+
+            /*modelBuilder.Entity<WorkSession>().HasData(
+                    new WorkSession
+                    {
+                        Id = 1,
+                        EndDate
+                    }
+
+                );*/
         }
 
     }

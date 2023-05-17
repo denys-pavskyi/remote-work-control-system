@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="1000">
     <Grid>
-        <Button x:Name="screenshotButton" Content="Button" HorizontalAlignment="Left" Margin="655,186,0,0" VerticalAlignment="Top" Height="31" Width="65" Click="screenshotButton_Click"/>
         <TabControl Margin="0,10,0,0">
             <TabItem Header="Головна">
                 <Grid Background="#FFE5E5E5">
@@ -22,13 +21,10 @@
                     <Label Content="Завдання спринту:" HorizontalAlignment="Left" Margin="91,293,0,0" VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="timeLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="691,380,0,0" VerticalAlignment="Top" FontSize="36"/>
                     <Grid/>
-                    <Button x:Name="projectSettings" Content="Налаштування проекту" HorizontalAlignment="Left" Margin="42,235,0,0" VerticalAlignment="Top" Height="39" Width="140" Click="projectSettings_Click"/>
+                    <Button x:Name="projectSettings" Content="Налаштування проекту" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,235,0,0" VerticalAlignment="Top" Height="39" Width="140" Click="projectSettings_Click"/>
                     <ListBox x:Name="sprintListBox" Margin="443,89,281,273" SelectionChanged="sprintListBox_SelectionChanged"/>
                     <Label Content="Доступні активні спринти в обраному проекті:" HorizontalAlignment="Left" Margin="443,58,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Змінити статус завдання" HorizontalAlignment="Left" Margin="506,334,0,0" VerticalAlignment="Top"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="506,367,0,0" VerticalAlignment="Top" Width="120"/>
-                    <Button Content="Підтвердити" HorizontalAlignment="Left" Margin="522,403,0,0" VerticalAlignment="Top" Height="24" Width="88"/>
-                    <Label x:Name="infoLabel" Content="" HorizontalAlignment="Left" Margin="591,260,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="14"/>
+                    <Label x:Name="infoLabel" Content="" HorizontalAlignment="Left" Margin="112,245,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="14"/>
                     <TextBlock x:Name="selectedTaskTextBlock" HorizontalAlignment="Left" Margin="606,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="365" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold"/>
 
 
@@ -51,16 +47,21 @@
                     <Label x:Name="status_Label" Content="" HorizontalAlignment="Left" Margin="527,310,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Власна статистика">
 
-            </TabItem>
-            <TabItem x:Name="usersTabItem" Visibility="Hidden" Header="Список користувачів">
 
-            </TabItem>
-            <TabItem x:Name="generateReport" Visibility="Hidden" Header="Згенерувати звіт">
+            <TabItem x:Name="usersTabItem"  Header="Список користувачів">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="usersListBox"  Margin="0,53,413,214" SelectionChanged="usersListBox_SelectionChanged"/>
+                    <ComboBox x:Name="rolePicker" HorizontalAlignment="Left" Margin="70,373,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Button x:Name="changeRoleButton" Content="Змінити роль" HorizontalAlignment="Left" Margin="214,366,0,0" VerticalAlignment="Top" Height="29" Width="88" Click="changeRoleButton_Click"/>
+                    <Label x:Name="userLabel" Content="" HorizontalAlignment="Left" Margin="111,318,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
+                </Grid>
             </TabItem>
-            
+
+
+
+
 
         </TabControl>
 

@@ -16,13 +16,14 @@ namespace API.Controllers
         }
 
 
-        // POST api/Screenshot/{id}
-        [HttpPost("Screenshot/{id}")]
+        // POST api/Screenshot/
+        [HttpPost("Screenshot/")]
         public async Task<ActionResult> UploadScreenshot(IFormFile file)
         {
             BlobContainerClient blobContainerClient = new BlobContainerClient(_screenshotPath, "bloprwcs");
+
             
-            using( var stream = new MemoryStream())
+            using ( var stream = new MemoryStream())
             {
                 await file.CopyToAsync(stream);
                 stream.Position = 0;

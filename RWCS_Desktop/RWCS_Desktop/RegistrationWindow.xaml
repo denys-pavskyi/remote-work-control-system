@@ -8,18 +8,19 @@
         mc:Ignorable="d"
         Title="RegistrationWindow" Height="500" Width="550">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="72,396,0,0" VerticalAlignment="Top" Height="35" Width="75"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="316,396,0,0" VerticalAlignment="Top" Height="35" Width="85"/>
+        <Button x:Name="registerButton" Content="Зареєструватися" HorizontalAlignment="Left" Margin="123,356,0,0" VerticalAlignment="Top" Height="35" Width="106" Click="registerButton_Click"/>
+        <Button x:Name="cancelButton" Content="Скасувати" HorizontalAlignment="Left" Margin="372,355,0,0" VerticalAlignment="Top" Height="36" Width="85" Click="cancelButton_Click"/>
         <Label Content="Ім'я:" HorizontalAlignment="Left" Margin="72,89,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="166,93,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="162" Height="18"/>
+        <TextBox x:Name="firstNameBox" HorizontalAlignment="Left" Margin="166,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
         <Label Content="Прізвище:" HorizontalAlignment="Left" Margin="72,135,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="166,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="162" Height="18"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="72,174,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="166,178,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="162" Height="18"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="72,221,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="166,225,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="162" Height="18"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="72,252,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="166,256,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="162" Height="18"/>
+        <TextBox x:Name="lastNameBox" HorizontalAlignment="Left" Margin="166,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
+        <Label Content="Логін:" HorizontalAlignment="Left" Margin="72,174,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="userNameBox" HorizontalAlignment="Left" Margin="166,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
+        <Label Content="Пароль:" HorizontalAlignment="Left" Margin="72,221,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="166,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="72,252,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="emailBox" HorizontalAlignment="Left" Margin="166,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
+        <Label x:Name="errorLabel" Content="" HorizontalAlignment="Left" Margin="150,314,0,0" VerticalAlignment="Top" Foreground="Red"/>
 
     </Grid>
 </Window>

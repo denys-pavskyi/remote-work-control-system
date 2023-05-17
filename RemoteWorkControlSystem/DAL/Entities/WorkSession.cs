@@ -11,7 +11,6 @@ namespace DAL.Entities
     public class WorkSession: BaseEntity
     {
         [Required]
-        [ForeignKey("ProjectMembers")]
         public int ProjectMemberId { get; set; }
 
         [Required]
