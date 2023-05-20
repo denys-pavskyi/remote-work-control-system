@@ -16,5 +16,6 @@ namespace BLL.Models
 
         public int ProjectMemberId { get; set; }
 
+        public int WorkSessionId { get; set; }
     }
 }

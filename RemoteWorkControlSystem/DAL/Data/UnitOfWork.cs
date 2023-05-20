@@ -67,7 +67,7 @@ namespace DAL.Data
         {
             get
             {
-                if (WorkSessionRepository == null)
+                if (workSessionRepository == null)
                 {
                     workSessionRepository = new WorkSessionRepository(dbContext);
                 }

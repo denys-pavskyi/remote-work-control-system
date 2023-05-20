@@ -56,7 +56,7 @@ namespace RWCS_Desktop
         {
             workSessionTimer.Stop();
             MainWindow window = new MainWindow(_userId, _userName, _email, _jiraApiKey, _jiraBaseUrl, _currentSessionTime);
-            //await CreateNewWorkSession();
+            await CreateNewWorkSession();
             window.Show();
             this.Close();
         }
@@ -89,7 +89,7 @@ namespace RWCS_Desktop
                 EndDate = endDate,
                 SprintKey = _workSessionTask.SprintName,
                 TaskKey = _workSessionTask.TaskKey,
-                WorkTime = (float)(endDate.Subtract(_startDate).Minutes + (float)(endDate.Subtract(_startDate).Seconds)/60f)
+                WorkTime =(float)_currentSessionTime.TotalMinutes
             };
             var json = JsonConvert.SerializeObject(workSession);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

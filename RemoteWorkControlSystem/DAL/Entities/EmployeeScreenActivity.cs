@@ -20,6 +20,11 @@ namespace DAL.Entities
         [ForeignKey("ProjectMembers")]
         public int ProjectMemberId { get; set; }
 
+        [Required]
+        public int WorkSessionId { get; set; }
+
+        public WorkSession WorkSession { get; set; }
+
         public ProjectMember ProjectMember { get; set; }
     }
 }

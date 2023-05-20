@@ -85,6 +85,8 @@ namespace RWCS_Desktop
 
         }
 
+        #region Initializations
+
         private void InitializeWorkSessionTimer()
         {
             workSessionTimer = new DispatcherTimer();
@@ -115,10 +117,15 @@ namespace RWCS_Desktop
             _hasProjects = await GetJiraProjects();
 
 
-            
+
 
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
+
+        #endregion
+
+
+        #region Help functions
 
         private void SetStatusLabels(string status, System.Windows.Media.Brush color)
         {
@@ -127,8 +134,13 @@ namespace RWCS_Desktop
             connectionStatus.Content = status;
             connectionStatus.Foreground = color;
         }
-       
 
+        #endregion
+
+
+        #region Requests to API
+
+        #endregion
         private async Task<bool> GetJiraProjects()
         {
             if (!_isConnected)
@@ -369,30 +381,7 @@ namespace RWCS_Desktop
             }
         }
 
-        private Bitmap Resize(byte[] wordBytes)
-        {
-            using (MemoryStream ms = new MemoryStream(wordBytes))
-            {
-                float width = 3840;
-                float height = 2160;
-                var brush = new SolidBrush(System.Drawing.Color.White);
-
-                var rawImage = System.Drawing.Image.FromStream(ms);
-                float scale = Math.Min(width / rawImage.Width, height / rawImage.Height);
-                var scaleWidth = (int)(rawImage.Width * scale);
-                var scaleHeight = (int)(rawImage.Height * scale);
-                var scaledBitmap = new Bitmap(scaleWidth, scaleHeight);
-
-                Graphics graph = Graphics.FromImage(scaledBitmap);
-                graph.InterpolationMode = InterpolationMode.High;
-                graph.CompositingQuality = CompositingQuality.HighQuality;
-                graph.SmoothingMode = SmoothingMode.AntiAlias;
-                graph.FillRectangle(brush, new RectangleF(0, 0, width, height));
-                graph.DrawImage(rawImage, new System.Drawing.Rectangle(0, 0, scaleWidth, scaleHeight));
-
-                return scaledBitmap;
-            }
-        }
+       
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -759,7 +748,7 @@ namespace RWCS_Desktop
                 {
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
-                        String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmmss") + ".png";
+                        String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmm") + ".png";
                         
                         Opacity = .0;
                         g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
@@ -772,10 +761,14 @@ namespace RWCS_Desktop
 
                         MemoryStream stream = new MemoryStream(picture);
                         stream.Position = 0;
-                        await blobContainerClient.UploadBlobAsync($"{_foldername}/{filename}", stream);
+
+                        MultipartFormDataContent form = new MultipartFormDataContent();
+                        form.Add(new ByteArrayContent(picture, 0, picture.Count()), "file", $"{_foldername}/{filename}");
 
 
-                       
+                        HttpResponseMessage response = await client.PostAsync($"{url}/screenshot", form);
+                        
+
                     }
 
                 }
@@ -806,7 +799,7 @@ namespace RWCS_Desktop
 
                     if (_IsScreenActivityControlEnabled)
                     {
-                        _foldername = _startDate.ToString("ddMMyyyy-hhmmss") + $"_{_workSessionTask.SprintName}_{_workSessionTask.TaskKey}_{_userId}";
+                        _foldername = _startDate.ToString("ddMMyyyy-hhmm") + $"_{_workSessionTask.SprintName}_{_workSessionTask.TaskKey}_{_userId}";
                         CreateNewScreenshotFolder();
                     }
 
