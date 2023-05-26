@@ -26,7 +26,6 @@ namespace DAL.Entities
 
         public Project Project { get; set; }
         public List<WorkSession> WorkSessions { get; set; }
-        public List<EmployeeScreenActivity> EmployeeScreenActivities { get; set; }
     }
 
     public enum UserRole

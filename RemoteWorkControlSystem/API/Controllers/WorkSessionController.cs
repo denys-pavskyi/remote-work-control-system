@@ -35,6 +35,26 @@ namespace API.Controllers
 
         }
 
+        // GET: api/<WorkSessionController>
+        [HttpGet]
+        [Route("WorkSessions/byProjectId/{projectId}")]
+        public async Task<ActionResult<IEnumerable<WorkSessionModel>>> GetByProjectId(int projectId)
+        {
+            var workSessions = await _service.GetAllAsync();
+
+            if (workSessions == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+
+                return new ObjectResult(workSessions);
+            }
+
+        }
+
+
         // GET api/<WorkSessionController>/5
         [HttpGet("WorkSession/{id}")]
         public async Task<ActionResult<WorkSessionModel>> GetById(int id)
@@ -108,4 +128,4 @@ namespace API.Controllers
             return Ok(workSession);
         }
     }
-    }
+}

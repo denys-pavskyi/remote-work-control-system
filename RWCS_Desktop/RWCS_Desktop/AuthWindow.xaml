@@ -7,14 +7,14 @@
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
         Title="AuthWindow" Height="450" Width="500">
-    <Grid>
+    <Grid Background="#DBDFEA">
         <Label Content="Авторизація" HorizontalAlignment="Left" Margin="27,10,0,0" VerticalAlignment="Top" FontSize="30"/>
         <TextBox x:Name="loginTextBox" HorizontalAlignment="Left" Margin="153,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" Text="denys_pavskyi2"/>
         <Label Content="Логін:" HorizontalAlignment="Left" Margin="87,190,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="passwordTextBox" HorizontalAlignment="Left" Margin="153,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" Text="password1"/>
         <Label Content="Пароль:" HorizontalAlignment="Left" Margin="87,222,0,0" VerticalAlignment="Top"/>
         <Button x:Name="log_in_Button" Content="Увійти" HorizontalAlignment="Left" Margin="141,288,0,0" VerticalAlignment="Top" Height="31" Width="80" FontWeight="Bold" Background="#FFB0D09B" Click="log_in_Button_Click"/>
-        <Button x:Name="registrationButton" Content="Реєстрація" HorizontalAlignment="Left" Margin="292,288,0,0" VerticalAlignment="Top" Height="30" Click="registrationButton_Click"/>
+        <Button x:Name="registrationButton" Content="Реєстрація" HorizontalAlignment="Left" Margin="292,288,0,0" VerticalAlignment="Top" Height="30" Click="registrationButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" Width="76"/>
         <Label x:Name="messageText" Content="" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Foreground="Red" Width="326" FontSize="16"/>
 
     </Grid>

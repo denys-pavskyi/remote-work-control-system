@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
         Title="RegistrationWindow" Height="500" Width="550">
-    <Grid>
-        <Button x:Name="registerButton" Content="Зареєструватися" HorizontalAlignment="Left" Margin="123,356,0,0" VerticalAlignment="Top" Height="35" Width="106" Click="registerButton_Click"/>
-        <Button x:Name="cancelButton" Content="Скасувати" HorizontalAlignment="Left" Margin="372,355,0,0" VerticalAlignment="Top" Height="36" Width="85" Click="cancelButton_Click"/>
+    <Grid Background="#DBDFEA">
+        <Button x:Name="registerButton" Content="Зареєструватися" HorizontalAlignment="Left" Margin="123,356,0,0" VerticalAlignment="Top" Height="35" Width="106" Click="registerButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold"/>
+        <Button x:Name="cancelButton" Content="Скасувати" HorizontalAlignment="Left" Margin="372,355,0,0" VerticalAlignment="Top" Height="36" Width="85" Click="cancelButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold"/>
         <Label Content="Ім'я:" HorizontalAlignment="Left" Margin="72,89,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="firstNameBox" HorizontalAlignment="Left" Margin="166,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Height="18"/>
         <Label Content="Прізвище:" HorizontalAlignment="Left" Margin="72,135,0,0" VerticalAlignment="Top"/>

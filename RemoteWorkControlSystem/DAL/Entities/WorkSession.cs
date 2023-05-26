@@ -28,6 +28,9 @@ namespace DAL.Entities
         [Required]
         public float WorkTime { get; set; }
 
+        [Required]
+        public string ScreenActivityFolder { get; set; }
+
         public ProjectMember ProjectMember { get; set; }
 
 

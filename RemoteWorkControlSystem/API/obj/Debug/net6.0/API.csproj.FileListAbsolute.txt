@@ -520,3 +520,6 @@ C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-contr
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\System.IO.Hashing.dll
 C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\System.Memory.Data.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Storage.Files.Shares.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Azure.Storage.Queues.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\API\bin\Debug\net6.0\Microsoft.Extensions.Azure.dll

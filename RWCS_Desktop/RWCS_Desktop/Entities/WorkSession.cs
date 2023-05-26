@@ -21,5 +21,7 @@ namespace RWCS_Desktop.Entities
         public DateTime EndDate { get; set; }
 
         public float WorkTime { get; set; }
+
+        public string ScreenActivityFolder { get; set; }
     }
 }

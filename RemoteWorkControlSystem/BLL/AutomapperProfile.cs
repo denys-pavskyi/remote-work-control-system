@@ -13,21 +13,15 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<EmployeeScreenActivity, EmployeeScreenActivityModel>();
-
-            CreateMap<EmployeeScreenActivityModel, EmployeeScreenActivity>()
-                .ForMember(esa => esa.ProjectMember, esam => esam.UseDestinationValue());
 
             CreateMap<ProjectMember, ProjectMemberModel>()
-                .ForMember(pmm => pmm.WorkSessionIds, pm => pm.MapFrom(x => x.WorkSessions.Select(x => x.Id)))
-                .ForMember(pmm => pmm.EmployeeScreenActivityIds, pm => pm.MapFrom(x => x.EmployeeScreenActivities.Select(x => x.Id)));
+                .ForMember(pmm => pmm.WorkSessionIds, pm => pm.MapFrom(x => x.WorkSessions.Select(x => x.Id)));
                 
             
 
             CreateMap<ProjectMemberModel, ProjectMember>()
                 .ForMember(pm => pm.User, pmm => pmm.UseDestinationValue())
                 .ForMember(pm => pm.Project, pmm => pmm.UseDestinationValue())
-                .ForMember(pm => pm.EmployeeScreenActivities, pmm => new List<EmployeeScreenActivity>())
                 .ForMember(pm => pm.WorkSessions, pmm => new List<WorkSession>());
 
 

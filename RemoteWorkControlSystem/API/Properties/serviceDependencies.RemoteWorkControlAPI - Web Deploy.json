@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/rwcs/databases/RemoteWorkControlSystem",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:RemoteWorkControlSystemDB",
+      "dynamicId": null
+    },
+    "storage1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/rwcsblopcontainer",
+      "type": "storage.azure",
+      "connectionId": "BlopContainer",
+      "dynamicId": null
+    }
+  }
+}

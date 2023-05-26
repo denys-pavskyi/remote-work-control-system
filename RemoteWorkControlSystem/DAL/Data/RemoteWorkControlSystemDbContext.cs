@@ -16,7 +16,6 @@ namespace DAL.Data
             Database.EnsureCreated();
         }
 
-        public DbSet<EmployeeScreenActivity> EmployeeScreenActivities { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<WorkSession> WorkSessions { get; set; }
@@ -24,8 +23,6 @@ namespace DAL.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EmployeeScreenActivity>()
-                .HasOne(x => x.ProjectMember).WithMany(x => x.EmployeeScreenActivities).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Project>()
                 .HasMany(x => x.ProjectMembers).WithOne(x => x.Project).HasForeignKey(x => x.ProjectId).OnDelete(DeleteBehavior.Cascade);
@@ -38,8 +35,6 @@ namespace DAL.Data
 
             modelBuilder.Entity<ProjectMember>()
                 .HasMany(x => x.WorkSessions).WithOne(x => x.ProjectMember).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<ProjectMember>()
-                .HasMany(x => x.EmployeeScreenActivities).WithOne(x => x.ProjectMember).HasForeignKey(x => x.ProjectMemberId).OnDelete(DeleteBehavior.Cascade);
 
 
 

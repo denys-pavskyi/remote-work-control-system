@@ -7,12 +7,12 @@
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
         Title="SettingsWindow" Height="450" Width="400">
-    <Grid>
+    <Grid Background="#DBDFEA">
         <Label x:Name="idLabel" Content="Інтервал знімків екрану(секунди):" HorizontalAlignment="Left" Margin="19,107,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="saveButton" Content="Зберегти" HorizontalAlignment="Left" Margin="72,255,0,0" VerticalAlignment="Top" Height="26" Width="66" Click="saveButton_Click"/>
-        <Button x:Name="closeButton" Content="Вийти" HorizontalAlignment="Left" Margin="218,255,0,0" VerticalAlignment="Top" Height="26" Width="66" Click="closeButton_Click"/>
+        <Button x:Name="saveButton" Content="Зберегти" HorizontalAlignment="Left" Margin="72,255,0,0" VerticalAlignment="Top" Height="26" Width="66" Click="saveButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold"/>
+        <Button x:Name="closeButton" Content="Вийти" HorizontalAlignment="Left" Margin="218,255,0,0" VerticalAlignment="Top" Height="26" Width="66" Click="closeButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold"/>
         <CheckBox x:Name="makeScreenshotsCheckBox" Content="Робити знімки екрану під час роботи" HorizontalAlignment="Left" Margin="72,69,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="intervalSlider" HorizontalAlignment="Left" Margin="219,111,0,0" VerticalAlignment="Top" Width="120" Maximum="295" Minimum="15" Value="15" SmallChange="5" TickFrequency="5" LargeChange="5"/>
+        <Slider x:Name="intervalSlider" HorizontalAlignment="Left" Margin="219,111,0,0" VerticalAlignment="Top" Width="120" Maximum="295" Minimum="15" Value="15" SmallChange="5" TickFrequency="5" LargeChange="5" Background="#FF585353"/>
         <Label x:Name="currentIntervalLabel" Content="" HorizontalAlignment="Left" Margin="344,107,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
     </Grid>

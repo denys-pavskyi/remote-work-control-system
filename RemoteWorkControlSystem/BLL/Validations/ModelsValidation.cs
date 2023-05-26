@@ -10,24 +10,7 @@ namespace BLL.Validations
 
     public static class ModelsValidation
     {
-        public static void EmployeeScreenActivityModelValidation(EmployeeScreenActivityModel model)
-        {
-            if (model == null)
-            {
-                throw new RemoteWorkControlSystemException("EmployeeScreenActivity was null");
-            }
-
-            if (model.ScreenshotURL == null || model.ScreenshotURL == String.Empty)
-            {
-                throw new RemoteWorkControlSystemException("Wrong screnshotURL");
-            }
-
-            if (model.ProjectMemberId < 0)
-            {
-                throw new RemoteWorkControlSystemException("Wrong ProjectMemberId");
-            }
-
-        }
+        
 
         public static void ProjectMemberModelValidation(ProjectMemberModel model)
         {

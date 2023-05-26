@@ -22,31 +22,6 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DAL.Entities.EmployeeScreenActivity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProjectMemberId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ScreenshotURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectMemberId");
-
-                    b.ToTable("EmployeeScreenActivities");
-                });
-
             modelBuilder.Entity("DAL.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -189,6 +164,10 @@ namespace DAL.Migrations
                     b.Property<int>("ProjectMemberId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ScreenActivityFolder")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SprintKey")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -208,17 +187,6 @@ namespace DAL.Migrations
                     b.HasIndex("ProjectMemberId");
 
                     b.ToTable("WorkSessions");
-                });
-
-            modelBuilder.Entity("DAL.Entities.EmployeeScreenActivity", b =>
-                {
-                    b.HasOne("DAL.Entities.ProjectMember", "ProjectMember")
-                        .WithMany("EmployeeScreenActivities")
-                        .HasForeignKey("ProjectMemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectMember");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
@@ -258,8 +226,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.ProjectMember", b =>
                 {
-                    b.Navigation("EmployeeScreenActivities");
-
                     b.Navigation("WorkSessions");
                 });
 

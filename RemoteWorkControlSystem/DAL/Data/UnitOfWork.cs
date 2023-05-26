@@ -12,7 +12,6 @@ namespace DAL.Data
     {
         private readonly RemoteWorkControlSystemDbContext dbContext;
 
-        private EmployeeScreenActivityRepository employeeScreenActivityRepository;
         private ProjectMemberRepository projectMemberRepository;
         private UserRepository userRepository;
         private WorkSessionRepository workSessionRepository;
@@ -25,18 +24,7 @@ namespace DAL.Data
         }
 
 
-        public IEmployeeScreenActivityRepository EmployeeScreenActivityRepository
-        {
-            get
-            {
-                if (employeeScreenActivityRepository == null)
-                {
-                    employeeScreenActivityRepository = new EmployeeScreenActivityRepository(dbContext);
-                }
-                return employeeScreenActivityRepository;
-            }
-        }
-
+     
         public IProjectMemberRepository ProjectMemberRepository
         {
             get

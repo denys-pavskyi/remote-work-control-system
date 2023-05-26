@@ -1,0 +1,14 @@
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\bin\Release\net6.0\DAL.deps.json
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\bin\Release\net6.0\DAL.runtimeconfig.json
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\bin\Release\net6.0\DAL.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\bin\Release\net6.0\DAL.pdb
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.csproj.AssemblyReference.cache
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.AssemblyInfoInputs.cache
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.AssemblyInfo.cs
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\refint\DAL.dll
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.pdb
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\DAL.genruntimeconfig.cache
+C:\Users\denpa\Desktop\Диплом\remote-work-control-system\remote-work-control-system\RemoteWorkControlSystem\DAL\obj\Release\net6.0\ref\DAL.dll

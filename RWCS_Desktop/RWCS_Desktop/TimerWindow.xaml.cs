@@ -28,6 +28,7 @@ namespace RWCS_Desktop
         private string _email;
         private string _jiraBaseUrl;
         private string _jiraApiKey;
+        private string _foldername;
         private DispatcherTimer workSessionTimer;
         private TimeSpan _currentSessionTime;
         public string url = "https://localhost:44395/api";
@@ -37,7 +38,8 @@ namespace RWCS_Desktop
         private DateTime _startDate;
 
 
-        public TimerWindow(int userId, string userName, string email, string jiraApiKey, string jiraBaseUrl, JiraTask task, ProjectMember project_member, DateTime startDate)
+        public TimerWindow(int userId, string userName, string email, string jiraApiKey, string jiraBaseUrl, 
+            JiraTask task, ProjectMember project_member, DateTime startDate, string foldername, DispatcherTimer timer)
         {
             InitializeComponent();
             _userId = userId;
@@ -47,6 +49,7 @@ namespace RWCS_Desktop
             _workSessionTask = task;
             _selectedProjectMember = project_member;
             _startDate = startDate;
+            _foldername = foldername;
 
             _jiraApiKey = jiraApiKey;
             InitializeWorkSessionTimer();
@@ -89,7 +92,8 @@ namespace RWCS_Desktop
                 EndDate = endDate,
                 SprintKey = _workSessionTask.SprintName,
                 TaskKey = _workSessionTask.TaskKey,
-                WorkTime =(float)_currentSessionTime.TotalMinutes
+                WorkTime =(float)_currentSessionTime.TotalMinutes,
+                ScreenActivityFolder = _foldername
             };
             var json = JsonConvert.SerializeObject(workSession);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

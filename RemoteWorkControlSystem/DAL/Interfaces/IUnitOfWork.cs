@@ -8,7 +8,6 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IEmployeeScreenActivityRepository EmployeeScreenActivityRepository { get; }
         IProjectMemberRepository ProjectMemberRepository { get; }
         IUserRepository UserRepository { get; }
         IWorkSessionRepository WorkSessionRepository { get; }

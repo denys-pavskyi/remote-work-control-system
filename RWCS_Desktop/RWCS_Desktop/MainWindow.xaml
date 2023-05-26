@@ -6,60 +6,103 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="1000">
+        Title="Remote Work Control System" Height="550" Width="1000">
     <Grid>
         <TabControl Margin="0,10,0,0">
-            <TabItem Header="Головна">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="projectsList" Height="149" VerticalAlignment="Top" Margin="42,74,672,0" SelectionChanged="projectsList_SelectionChanged"/>
+            <TabItem Header="Головна" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+                <Grid Background="#DBDFEA">
+                    <ListBox x:Name="projectsList" Height="149" VerticalAlignment="Top" Margin="42,74,672,0" SelectionChanged="projectsList_SelectionChanged" FontWeight="Normal"/>
                     <Label Content="Проекти:" HorizontalAlignment="Left" Margin="42,43,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="connectionStatus" Content="" HorizontalAlignment="Left" Margin="720,10,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Підключення:" HorizontalAlignment="Left" Margin="629,10,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="refreshButton" Content="Оновити" HorizontalAlignment="Left" Margin="216,23,0,0" VerticalAlignment="Top" Click="refreshButton_Click" Height="28" Width="56"/>
-                    <ListBox x:Name="tasksList" Margin="91,324,529,23" SelectionChanged="tasksList_SelectionChanged"/>
-                    <Button x:Name="workSession_Button" Content="Почати" HorizontalAlignment="Left" Margin="838,388,0,0" VerticalAlignment="Top" Height="41" Width="107" Click="workSession_Button_Click"/>
+                    <Label Content="Підключення:" HorizontalAlignment="Left" Margin="592,10,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="refreshButton" Content="Оновити" HorizontalAlignment="Left" Margin="216,23,0,0" VerticalAlignment="Top" Click="refreshButton_Click" Height="28" Width="82" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
+                    <ListBox x:Name="tasksList" Margin="91,324,529,23" SelectionChanged="tasksList_SelectionChanged" FontWeight="Normal"/>
+                    <Button x:Name="workSession_Button" Content="Почати" HorizontalAlignment="Left" Margin="850,388,0,0" VerticalAlignment="Top" Height="41" Width="107" Click="workSession_Button_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
                     <Label Content="Завдання спринту:" HorizontalAlignment="Left" Margin="91,293,0,0" VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="timeLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="691,380,0,0" VerticalAlignment="Top" FontSize="36"/>
                     <Grid/>
-                    <Button x:Name="projectSettings" Content="Налаштування проекту" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,235,0,0" VerticalAlignment="Top" Height="39" Width="140" Click="projectSettings_Click"/>
-                    <ListBox x:Name="sprintListBox" Margin="443,89,281,273" SelectionChanged="sprintListBox_SelectionChanged"/>
+                    <Button x:Name="projectSettings" Content="Налаштування проекту" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,235,0,0" VerticalAlignment="Top" Height="39" Width="179" Click="projectSettings_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
+                    <ListBox x:Name="sprintListBox" Margin="443,89,281,273" SelectionChanged="sprintListBox_SelectionChanged" FontWeight="Normal"/>
                     <Label Content="Доступні активні спринти в обраному проекті:" HorizontalAlignment="Left" Margin="443,58,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="infoLabel" Content="" HorizontalAlignment="Left" Margin="112,245,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="14"/>
-                    <TextBlock x:Name="selectedTaskTextBlock" HorizontalAlignment="Left" Margin="606,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="365" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock x:Name="selectedTaskTextBlock" HorizontalAlignment="Left" Margin="606,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="365" FontFamily="Times New Roman" FontSize="16" FontWeight="Bold" Foreground="DarkBlue"/>
 
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Профіль">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="Увійшли як:" HorizontalAlignment="Left" Margin="28,57,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="usernameInfo" Content="" HorizontalAlignment="Left" Margin="107,57,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="logoutButton" Content="Вийти" HorizontalAlignment="Left" Margin="65,174,0,0" VerticalAlignment="Top" Height="24" Width="61" Click="logoutButton_Click"/>
+            <TabItem Header="Профіль" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+                <Grid Background="#DBDFEA">
+                    <Label Content="Увійшли як:" HorizontalAlignment="Left" Margin="15,57,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="usernameInfo" Content="" HorizontalAlignment="Left" Margin="107,57,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                    <Button x:Name="logoutButton" Content="Вийти" HorizontalAlignment="Left" Margin="65,174,0,0" VerticalAlignment="Top" Height="24" Width="61" Click="logoutButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14" />
                     <Label Content="Jira API" HorizontalAlignment="Left" Margin="468,35,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
                     <Label Content="Email:" HorizontalAlignment="Left" Margin="447,79,0,0" VerticalAlignment="Top"/>
                     <Label Content="JiraApiKey:" HorizontalAlignment="Left" Margin="447,114,0,0" VerticalAlignment="Top"/>
-                    <Label Content="JiraBaseDomain:" HorizontalAlignment="Left" Margin="431,216,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="jiraApiKey_TextBox" HorizontalAlignment="Left" Margin="527,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Height="80"/>
-                    <TextBox x:Name="email_TextBox" HorizontalAlignment="Left" Margin="527,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>
-                    <TextBox x:Name="jiraBaseUrl_TextBox" HorizontalAlignment="Left" Margin="527,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>
+                    <Label Content="JiraBaseDomain:" HorizontalAlignment="Left" Margin="403,216,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="jiraApiKey_TextBox" HorizontalAlignment="Left" Margin="527,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Height="80" FontWeight="Normal"/>
+                    <TextBox x:Name="email_TextBox" HorizontalAlignment="Left" Margin="527,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" FontWeight="Normal"/>
+                    <TextBox x:Name="jiraBaseUrl_TextBox" HorizontalAlignment="Left" Margin="527,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" FontWeight="Normal"/>
                     <Label Content="Status:" HorizontalAlignment="Left" Margin="457,310,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="checkConnection_Button" Content="Check connection" HorizontalAlignment="Left" Margin="527,261,0,0" VerticalAlignment="Top" Height="27" Width="120" Click="checkConnection_Button_Click"/>
-                    <Label x:Name="status_Label" Content="" HorizontalAlignment="Left" Margin="527,310,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="checkConnection_Button" Content="Check connection" HorizontalAlignment="Left" Margin="527,261,0,0" VerticalAlignment="Top" Height="27" Width="137" Click="checkConnection_Button_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
+                    <Label x:Name="status_Label" Content="" HorizontalAlignment="Left" Margin="527,310,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
                 </Grid>
             </TabItem>
 
 
-            <TabItem x:Name="usersTabItem"  Header="Список користувачів">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="usersListBox"  Margin="0,53,413,214" SelectionChanged="usersListBox_SelectionChanged"/>
+            <TabItem x:Name="usersTabItem"  Header="Список користувачів" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+                <Grid Background="#DBDFEA">
+                    <ListBox x:Name="usersListBox"  Margin="0,53,413,214" SelectionChanged="usersListBox_SelectionChanged" FontWeight="Normal"/>
                     <ComboBox x:Name="rolePicker" HorizontalAlignment="Left" Margin="70,373,0,0" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="changeRoleButton" Content="Змінити роль" HorizontalAlignment="Left" Margin="214,366,0,0" VerticalAlignment="Top" Height="29" Width="88" Click="changeRoleButton_Click"/>
+                    <Button x:Name="changeRoleButton" Content="Змінити роль" HorizontalAlignment="Left" Margin="214,371,0,0" VerticalAlignment="Top" Height="29" Width="120" Click="changeRoleButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
                     <Label x:Name="userLabel" Content="" HorizontalAlignment="Left" Margin="111,318,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
                 </Grid>
             </TabItem>
 
+            <TabItem x:Name="statsTabItem" Header="Моя статистика" Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
 
+                <Grid Background="#DBDFEA">
+                    <Label Content="Статистика" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+
+                    <Grid Margin="0,46,541,304" Background="#ACB1D6">
+                        <Label Content="За тиждень:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="DarkBlue"/>
+                        <Label x:Name="weekTasks" Content="" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        <Label x:Name="weekHours" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
+                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="223,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
+                        <Button x:Name="leftButton" Content="&lt;" HorizontalAlignment="Left" Margin="34,40,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="rightButton" Content="&gt;" HorizontalAlignment="Left" Margin="67,40,0,0" VerticalAlignment="Top"/>
+                        <Label x:Name="currentWeekLabel" Content="" HorizontalAlignment="Left" Margin="34,62,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="226,91,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        <Label x:Name="weekSession" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
+
+                    </Grid>
+
+                    <Grid Background="#ACB1D6" HorizontalAlignment="Left" Width="516" Margin="478,46,0,304">
+                        <Label Content="Загалом:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="DarkBlue"/>
+                        <Label x:Name="overallTasks" Content="" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="217,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        <Label x:Name="overallHours" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
+                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="223,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
+                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="223,103,0,11" FontWeight="Normal"/>
+                        <Label x:Name="overallSessions" Content="" HorizontalAlignment="Left" Margin="147,98,0,0" VerticalAlignment="Top"/>
+
+                    </Grid>
+
+                    <Grid Margin="34,194,231,56">
+                        <ListBox x:Name="workSessionsListBox"  Background="#FFEAD2" Margin="62,37,-62,-51"/>
+                    </Grid>
+                    <Label Content="Недавні сесії" HorizontalAlignment="Left" Margin="46,194,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="projectSessionTabItem" Visibility="Visible" Header="Сесії проекту" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14" >
+                <Grid Background="#DBDFEA">
+
+
+                </Grid>
+            </TabItem>
 
 
 

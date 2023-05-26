@@ -22,7 +22,7 @@ namespace BLL.Models
 
         public float WorkTime { get; set; }
 
-       
+        public string ScreenActivityFolder { get; set; }
 
 
     }
