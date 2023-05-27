@@ -40,5 +40,29 @@ namespace API.Controllers
             }
 
         }
+
+        
+
+        // GET: api/<WorkSessionController>
+        [HttpGet]
+        [Route("Statistics/projectMemberId/{projectMemberId}")]
+        public async Task<ActionResult<StatisticsData>> GetStatisticsByProjectMember(int projectMemberId)
+        {
+
+            var statisticsData = await _service.GetStatisticByProjectMember(projectMemberId);
+
+            if (statisticsData == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+
+                return new ObjectResult(statisticsData);
+            }
+
+        }
+
+
     }
 }

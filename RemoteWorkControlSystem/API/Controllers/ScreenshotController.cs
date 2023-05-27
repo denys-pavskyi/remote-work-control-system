@@ -27,7 +27,17 @@ namespace API.Controllers
             {
                 await file.CopyToAsync(stream);
                 stream.Position = 0;
-                await blobContainerClient.UploadBlobAsync(file.FileName, stream);
+                try
+                {
+                    await blobContainerClient.UploadBlobAsync(file.FileName, stream);
+
+                }
+                catch(Exception ex)
+                {
+                    
+                    return BadRequest();
+                }
+                
             }
             
             return Ok("File uploaded successfully");

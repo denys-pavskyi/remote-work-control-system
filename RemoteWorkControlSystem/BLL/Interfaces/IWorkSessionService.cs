@@ -9,5 +9,7 @@ namespace BLL.Interfaces
 {
     public interface IWorkSessionService : ICrud<WorkSessionModel>
     {
+        Task<IEnumerable<WorkSessionModel>> GetAllByProjectMemberId(int projectMemberId);
+        Task<IEnumerable<WorkSessionModel>> GetAllByProjectId(int projectId);
     }
 }

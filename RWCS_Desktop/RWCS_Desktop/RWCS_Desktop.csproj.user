@@ -16,7 +16,7 @@
     <Compile Update="SettingsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TimerWindow.xaml.cs">
+    <Compile Update="WorkSessionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -33,7 +33,7 @@
     <Page Update="SettingsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="TimerWindow.xaml">
+    <Page Update="WorkSessionWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

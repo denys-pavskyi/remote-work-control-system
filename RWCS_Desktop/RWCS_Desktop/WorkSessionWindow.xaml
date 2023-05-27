@@ -1,0 +1,14 @@
+﻿<Window x:Class="RWCS_Desktop.WorkSessionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        WindowStartupLocation="CenterScreen"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RWCS_Desktop"
+        mc:Ignorable="d"
+        Title="WorkSessionWindow" Height="450" Width="600">
+    <Grid Background="#DBDFEA">
+        <Button x:Name="closeButton" Content="Закрити" HorizontalAlignment="Left" Margin="493,29,0,0" VerticalAlignment="Top" Height="33" Width="66" Click="closeButton_Click"/>
+
+    </Grid>
+</Window>

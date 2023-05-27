@@ -10,5 +10,6 @@ namespace RWCS_Desktop.Entities
     {
         public int NumberOfTasks { get; set; }
         public float HoursWorking { get; set; }
+        public int NumberOfSessions { get; set; }
     }
 }

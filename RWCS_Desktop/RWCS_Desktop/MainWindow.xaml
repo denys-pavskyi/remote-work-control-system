@@ -59,47 +59,61 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="statsTabItem" Header="Моя статистика" Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+            <TabItem x:Name="statsTabItem"  Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
 
+                <TabItem.Header>
+                    <Label x:Name="toStatsLabel" Content="Моя статистика" Foreground="LightGray" FontWeight="Bold" MouseLeftButtonUp="toStatsLabel_MouseLeftButtonUp">
+
+                    </Label>
+                </TabItem.Header>
                 <Grid Background="#DBDFEA">
                     <Label Content="Статистика" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
 
-                    <Grid Margin="0,46,541,304" Background="#ACB1D6">
+                    <Grid Margin="0,46,541,294" Background="#ACB1D6">
                         <Label Content="За тиждень:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="DarkBlue"/>
-                        <Label x:Name="weekTasks" Content="" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top"/>
-                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
-                        <Label x:Name="weekHours" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
-                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="223,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
-                        <Button x:Name="leftButton" Content="&lt;" HorizontalAlignment="Left" Margin="34,40,0,0" VerticalAlignment="Top"/>
-                        <Button x:Name="rightButton" Content="&gt;" HorizontalAlignment="Left" Margin="67,40,0,0" VerticalAlignment="Top"/>
-                        <Label x:Name="currentWeekLabel" Content="" HorizontalAlignment="Left" Margin="34,62,0,0" VerticalAlignment="Top"/>
-                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="226,91,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
-                        <Label x:Name="weekSession" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
+                        <Label x:Name="weekTasks"  Content="" HorizontalAlignment="Left" Margin="326,10,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="174,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        <Label x:Name="weekHours" Content="" HorizontalAlignment="Left" Margin="326,0,0,0" VerticalAlignment="Center"/>
+                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="174,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
+                        <Button x:Name="leftButton" Content="&lt;" HorizontalAlignment="Left" Margin="20,40,0,0" VerticalAlignment="Top" Click="leftButton_Click"/>
+                        <Button x:Name="rightButton" Content="&gt;" HorizontalAlignment="Left" Margin="79,40,0,0" VerticalAlignment="Top" Click="rightButton_Click"/>
+                        <Label x:Name="currentWeekLabel" Content="" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="180,0,0,23" FontWeight="Normal" Height="29" VerticalAlignment="Bottom"/>
+                        <Label x:Name="weekSessions" Content="" HorizontalAlignment="Left" Margin="284,0,0,23" VerticalAlignment="Bottom"/>
+                        <Button x:Name="nowButton" Content="Now" HorizontalAlignment="Left" Margin="39,41,0,0" VerticalAlignment="Top" Height="20" Click="nowButton_Click"/>
 
                     </Grid>
 
-                    <Grid Background="#ACB1D6" HorizontalAlignment="Left" Width="516" Margin="478,46,0,304">
+                    <Grid Background="#ACB1D6" HorizontalAlignment="Left" Width="516" Margin="478,46,0,294">
                         <Label Content="Загалом:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="DarkBlue"/>
-                        <Label x:Name="overallTasks" Content="" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top"/>
-                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="217,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
-                        <Label x:Name="overallHours" Content="" HorizontalAlignment="Left" Margin="142,0,0,0" VerticalAlignment="Center"/>
-                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="223,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
-                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="223,103,0,11" FontWeight="Normal"/>
-                        <Label x:Name="overallSessions" Content="" HorizontalAlignment="Left" Margin="147,98,0,0" VerticalAlignment="Top"/>
+                        <Label x:Name="overallTasks" Content="" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Завдань виконувалось:" HorizontalAlignment="Left" Margin="187,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        <Label x:Name="overallHours" Content="" HorizontalAlignment="Left" Margin="344,0,0,0" VerticalAlignment="Center"/>
+                        <Label Content="Годин відпрацьовано:" HorizontalAlignment="Left" Margin="187,0,0,0" VerticalAlignment="Center" FontWeight="Normal"/>
+                        <Label Content="Кількість сесій:" HorizontalAlignment="Left" Margin="187,0,0,25" FontWeight="Normal" Height="26" VerticalAlignment="Bottom"/>
+                        <Label x:Name="overallSessions" Content="" HorizontalAlignment="Left" Margin="291,0,0,22" VerticalAlignment="Bottom"/>
 
                     </Grid>
 
                     <Grid Margin="34,194,231,56">
-                        <ListBox x:Name="workSessionsListBox"  Background="#FFEAD2" Margin="62,37,-62,-51"/>
+                        <ListBox x:Name="workSessionsListBox"  Background="#FFEAD2" Margin="62,37,-62,-51" SelectionChanged="workSessionsListBox_SelectionChanged"/>
                     </Grid>
                     <Label Content="Недавні сесії" HorizontalAlignment="Left" Margin="46,194,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
 
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="projectSessionTabItem" Visibility="Visible" Header="Сесії проекту" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14" >
-                <Grid Background="#DBDFEA">
+            <TabItem x:Name="projectSessionTabItem" Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14" >
+                <TabItem.Header>
+                    <Label x:Name="toProjectSessionLabel" Content="Сесії проекту" Foreground="LightGray" FontWeight="Bold" MouseLeftButtonUp="toProjectSessionLabel_MouseLeftButtonUp" >
 
+                    </Label>
+                </TabItem.Header>
+                
+                <Grid Background="#DBDFEA">
+                    <Grid Margin="34,194,231,56">
+                        <ListBox x:Name="allWorkSessionsListBox"  Background="#FFEAD2" Margin="29,-131,-29,48" SelectionChanged="workSessionsListBox_SelectionChanged"/>
+                    </Grid>
 
                 </Grid>
             </TabItem>

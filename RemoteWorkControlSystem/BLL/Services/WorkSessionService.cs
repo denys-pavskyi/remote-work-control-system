@@ -45,6 +45,18 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<WorkSessionModel>>(unmappedWorkSessions);
         }
 
+        public async Task<IEnumerable<WorkSessionModel>> GetAllByProjectMemberId(int projectMemberId)
+        {
+            IEnumerable<WorkSession> unmappedWorkSessions = await _unitOfWork.WorkSessionRepository.GetAllWithDetailsAsync();
+            return _mapper.Map<IEnumerable<WorkSessionModel>>(unmappedWorkSessions.Where(x=> x.ProjectMemberId==projectMemberId));
+        }
+
+        public async Task<IEnumerable<WorkSessionModel>> GetAllByProjectId(int projectId)
+        {
+            IEnumerable<WorkSession> unmappedWorkSessions = await _unitOfWork.WorkSessionRepository.GetAllWithDetailsAsync();
+            return _mapper.Map<IEnumerable<WorkSessionModel>>(unmappedWorkSessions.Where(x => x.ProjectMember.ProjectId==projectId));
+        }
+
         public async Task<WorkSessionModel> GetByIdAsync(int id)
         {
             var unmappedWorkSession = await _unitOfWork.WorkSessionRepository.GetByIdWithDetailsAsync(id);

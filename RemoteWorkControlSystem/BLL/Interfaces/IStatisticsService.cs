@@ -11,5 +11,6 @@ namespace BLL.Interfaces
     public interface IStatisticsService
     {
         Task<StatisticsData> GetStatisticsByDataFrame(DateTime st, DateTime end, int projectMemberId);
+        Task<StatisticsData> GetStatisticByProjectMember(int projectMemberId);
     }
 }

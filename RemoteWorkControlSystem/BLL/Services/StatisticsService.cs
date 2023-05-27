@@ -27,7 +27,7 @@ namespace BLL.Services
         public async Task<StatisticsData> GetStatisticsByDataFrame(DateTime st, DateTime end, int projectMemberId)
         {
             IEnumerable<WorkSession> unmappedWorkSessions = await _unitOfWork.WorkSessionRepository.GetAllWithDetailsAsync();
-            var sessions = unmappedWorkSessions.Where(x => x.ProjectMemberId == projectMemberId).Where(x => x.StartDate>=st && x.EndDate<=end);
+            var sessions = unmappedWorkSessions.Where(x => x.ProjectMemberId == projectMemberId).Where(x => x.StartDate>=st && x.EndDate<=end.AddDays(1).AddMinutes(-1));
 
             int tasks = 0;
             float minutes = 0;
@@ -40,9 +40,28 @@ namespace BLL.Services
             }
 
             
-            return new StatisticsData { HoursWorking = minutes/60f, NumberOfTasks = unique_tasks.Count() };
+            return new StatisticsData { HoursWorking = minutes/60f, NumberOfTasks = unique_tasks.Count(), NumberOfSessions = sessions.Count() };
         }
-    
-    
+
+        public async Task<StatisticsData> GetStatisticByProjectMember(int projectMemberId)
+        {
+            IEnumerable<WorkSession> unmappedWorkSessions = await _unitOfWork.WorkSessionRepository.GetAllWithDetailsAsync();
+            var sessions = unmappedWorkSessions.Where(x => x.ProjectMemberId == projectMemberId);
+
+            int tasks = 0;
+            float minutes = 0;
+            HashSet<(string sprint, string task)> unique_tasks = new HashSet<(string sprint, string task)>();
+
+            foreach (var session in sessions)
+            {
+                minutes += session.WorkTime;
+                unique_tasks.Add((session.SprintKey, session.TaskKey));
+            }
+
+
+            return new StatisticsData { HoursWorking = minutes / 60f, NumberOfTasks = unique_tasks.Count(), NumberOfSessions = sessions.Count() };
+        }
+
+
     }
 }

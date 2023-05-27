@@ -49,8 +49,7 @@ namespace RWCS_Desktop
         private DateTime _startDate = new DateTime();
 
         private DateTime _currentDate = new DateTime();
-        private DateTime w1 = new DateTime();
-        private DateTime w2 = new DateTime();
+        
 
         private Project _selectedProject;
 
@@ -66,6 +65,9 @@ namespace RWCS_Desktop
         private bool _IsScreenActivityControlEnabled = false;
         private float _interval = 15f;
 
+
+        List<WorkSession> myWorkSessions = new List<WorkSession>();
+        List<WorkSession> allWorkSessions = new List<WorkSession>();
 
 
         private bool _isConnected;
@@ -136,12 +138,68 @@ namespace RWCS_Desktop
             connectionStatus.Foreground = color;
         }
 
+        private bool GetActiveSprintsList()
+        {
+            sprintListBox.Items.Clear();
+            var sprintNames = _allTasks.Select(x => x.SprintName).Distinct();
+
+            foreach (var name in sprintNames)
+            {
+                sprintListBox.Items.Add(name);
+            }
+
+            if (sprintListBox.Items.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        private string Replace_UnderScore_WithTwo(string str)
+        {
+            char und = "_".ToCharArray()[0];
+            string new_str = "";
+            foreach (char c in str)
+            {
+                new_str += c;
+                if (c == und)
+                {
+                    new_str += und;
+                }
+            }
+
+            return new_str;
+        }
+
+
+        private void UpdateCredentials()
+        {
+            _email = email_TextBox.Text;
+            _jiraApiKey = jiraApiKey_TextBox.Text;
+            _jiraBaseUrl = $"{jiraBaseUrl_TextBox.Text}";
+        }
+
+
+        public static byte[] ImageToByte(System.Drawing.Image img)
+        {
+            using (var stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+
+
+
         #endregion
 
 
         #region Requests to API
-
-        #endregion
         private async Task<bool> GetJiraProjects()
         {
             if (!_isConnected)
@@ -151,7 +209,7 @@ namespace RWCS_Desktop
 
             try
             {
-                
+
                 HttpClient client = new HttpClient();
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
@@ -181,8 +239,8 @@ namespace RWCS_Desktop
                         projectsList.Items.Add($"{item.Value} ({item.Key})");
                     }
                 }
-                
-                
+
+
 
                 return true;
             }
@@ -190,11 +248,10 @@ namespace RWCS_Desktop
             {
                 MessageBox.Show("Не вдалось отримати список проектів");
                 return false;
-                
-            }
-            
-        }
 
+            }
+
+        }
 
         private async Task<bool> GetJiraTasksAndSprints()
         {
@@ -206,7 +263,7 @@ namespace RWCS_Desktop
 
             try
             {
-               
+
                 HttpClient client = new HttpClient();
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{_email}:{_jiraApiKey}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
@@ -235,7 +292,7 @@ namespace RWCS_Desktop
                     var sprints = issue["fields"]["customfield_10020"];
 
                     string sprint_name = "";
-                    foreach(var sprint in sprints)
+                    foreach (var sprint in sprints)
                     {
                         if (sprint["state"] == "active")
                         {
@@ -246,10 +303,10 @@ namespace RWCS_Desktop
 
                     JiraTask new_task = new JiraTask() { TaskName = name, TaskKey = key, Status = status, SprintName = sprint_name };
 
-                    _allTasks.Add(new_task); 
+                    _allTasks.Add(new_task);
                 }
 
-                if(_allTasks.Count > 0)
+                if (_allTasks.Count > 0)
                 {
                     return GetActiveSprintsList();
                 }
@@ -257,7 +314,7 @@ namespace RWCS_Desktop
                 {
                     return false;
                 }
-               
+
             }
             catch
             {
@@ -265,35 +322,12 @@ namespace RWCS_Desktop
                 return false;
 
             }
-            
-        }
-
-        private bool GetActiveSprintsList()
-        {
-            sprintListBox.Items.Clear();
-            var sprintNames = _allTasks.Select(x => x.SprintName).Distinct();
-
-            foreach(var name in sprintNames)
-            {
-                sprintListBox.Items.Add(name);
-            }
-            
-            if(sprintListBox.Items.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            } 
 
         }
 
-
-        
         private async Task<bool> TestConnection()
         {
-            
+
             if (_jiraApiKey == "-" || _jiraBaseUrl == "-")
             {
                 return false;
@@ -318,12 +352,13 @@ namespace RWCS_Desktop
             {
                 return false;
             }
-            
 
-            
+
+
 
             return false;
         }
+
 
         private async Task UpdateJiraCredentials()
         {
@@ -349,236 +384,16 @@ namespace RWCS_Desktop
             {
                 SetStatusLabels("Помилка доступу до бази даних", System.Windows.Media.Brushes.Red);
             }
-            
+
 
         }
 
-        private string Replace_UnderScore_WithTwo(string str)
-        {
-            char und = "_".ToCharArray()[0];
-            string new_str = "";
-            foreach(char c in str)
-            {
-                new_str += c;
-                if (c == und)
-                {
-                    new_str+=und;
-                }
-            }
-
-            return new_str;
-        }
-
-        
-
-
-
-        public static byte[] ImageToByte(System.Drawing.Image img)
-        {
-            using (var stream = new MemoryStream())
-            {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                return stream.ToArray();
-            }
-        }
-
-       
-
-        private void logoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            AuthWindow authWindow = new AuthWindow();
-            authWindow.Show();
-            this.Close();
-
-        }
-
-        private async void checkConnection_Button_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateCredentials();
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-            _isConnected = await TestConnection();
-            if (_isConnected)
-            {
-                SetStatusLabels("Success", System.Windows.Media.Brushes.Green);
-                await Refresh();
-            }
-            else
-            {
-                SetStatusLabels("Authorization failed", System.Windows.Media.Brushes.Red);
-            }
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-        }
-
-        private void UpdateCredentials()
-        {
-            _email = email_TextBox.Text;
-            _jiraApiKey = jiraApiKey_TextBox.Text;
-            _jiraBaseUrl = $"{jiraBaseUrl_TextBox.Text}";
-        }
-
-        private async void projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-            bool firstUser = false;
-            if (projectsList.SelectedItem != null)
-            {
-                HttpClient client = new HttpClient();
-                var select = projectsList.SelectedItem.ToString();
-                select = select.Split(" ")[1];
-                select = select.Substring(1, select.Length - 2);
-                _selectedProjectKey = select;
-                _currentDate = new DateTime();
-
-                _selectedProject =  await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-                if (_selectedProject == null)
-                {
-                    if (MessageBox.Show("Цього проекту ще нема в системі, завантажити?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-                    {
-                        
-                        firstUser = true;
-                        await CreateNewProject();
-
-                        _selectedProject = await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
-                        infoLabel.Content = "";
-                        Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;                       
-
-
-                    }
-                    else
-                    {
-                        await Refresh();
-                    }       
-                }
-
-
-                if (_selectedProject != null)
-                {
-                    statsTabItem.Visibility = Visibility.Visible;
-                    _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProject.Id);
-
-
-
-                    if (_selectedProjectMember == null)
-                    {
-                        ProjectMember new_project_member = new ProjectMember
-                        {
-                            EmployeeScreenActivityIds = new List<int>(),
-                            ProjectId = _selectedProject.Id,
-                            UserId = _userId,
-                            WorkSessionIds = new List<int>()
-                        };
-
-                        if (firstUser)
-                        {
-                            new_project_member.Role = UserRole.AgileManager;
-                        }
-                        else
-                        {
-                            new_project_member.Role = UserRole.Developer;
-                        }
-
-                        var newProjMember = JsonConvert.SerializeObject(new_project_member);
-                        var httpContent = new StringContent(newProjMember, Encoding.UTF8, "application/json");
-                        try
-                        {
-                            HttpResponseMessage response = await client.PostAsync(url + $"/ProjectMember", httpContent);
-
-                            if (response.IsSuccessStatusCode)
-                            {
-                                _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProject.Id);
-                                infoLabel.Content = "";
-                            }
-
-                        }
-                        catch
-                        {
-                            infoLabel.Content = "Сталася помилка";
-                        }
-                    }
-
-                    if(_selectedProjectMember!= null && _selectedProjectMember.Role == UserRole.AgileManager)
-                    {
-                        usersTabItem.Visibility = Visibility.Visible;
-                        projectSettings.Visibility = Visibility.Visible;
-                        projectSessionTabItem.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        usersTabItem.Visibility = Visibility.Hidden;
-                        projectSettings.Visibility = Visibility.Hidden;
-                        projectSessionTabItem.Visibility = Visibility.Hidden;
-                    }
-
-                    if (_selectedProjectMember != null && _selectedProject != null)
-                    {
-                        await GetJiraTasksAndSprints();
-                        await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
-
-                        if (_selectedProjectMember.Role == UserRole.AgileManager)
-                        {
-                            usersTabItem.Visibility = Visibility.Visible;
-                            await GetProjecMembersWithRoles();
-
-                        }
-                    }
-                }
-                else
-                {
-                    statsTabItem.Visibility = Visibility.Hidden;
-                }
-                
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-
-
-            }
-
-        }
-
-        #region Statistics
-
-        public async Task LoadStatisticsForProjectMember(int projectMemberId)
-        {
-            HttpClient httpClient = new HttpClient();
-
-            _currentDate = DateTime.Now;
-            w1 = StartOfWeek(_currentDate, DayOfWeek.Monday);
-            w2 = w1.AddDays(7).AddMinutes(-1);
-
-            currentWeekLabel.Content = $"{w1.ToShortDateString()}-{w2.ToShortDateString()}";
-
-            workSessionsListBox.Items.Add("1|  Sprint1:TP-4|  (2023-05-21 02:40:38)-(2023-05-21 02:40:56)| work time: 0.25");
-            workSessionsListBox.Items.Add("2|  Sprint1:TP-2|  (2023-05-21 02:41:44)-(2023-05-21 02:43:06)| work time: 1.283");
-            workSessionsListBox.Items.Add("3|  Sprint1:TP-6|  (2023-05-21 03:16:16)-(2023-05-21 03:17:12)| work time: 0.866");
-
-            weekHours.Content = "0.04";
-            overallHours.Content = "0.04";
-            overallTasks.Content = "2";
-            weekTasks.Content = "2";
-
-            HttpResponseMessage response = await httpClient.GetAsync(url + $"/Statistics?start={w1.Year}-{w1.Month}-{w1.Day}&end={w2.Year}-{w2.Month}-{w2.Day}&projectMemberId={_selectedProjectMember.Id}");
-            string resultContent = await response.Content.ReadAsStringAsync();
-
-        
-            StatisticsData stats= JsonConvert.DeserializeObject<StatisticsData>(resultContent);
-
-            var t = 1;
-            
-        }
-
-        public DateTime StartOfWeek(DateTime dt, DayOfWeek startOfWeek)
-        {
-            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
-            return dt.AddDays(-1 * diff).Date;
-        }
-
-        #endregion
 
         public async Task GetProjecMembersWithRoles()
         {
             if (await GetProjectMembers())
             {
-                
+
                 HttpClient httpClient = new HttpClient();
                 List<string> text_users = new List<string>();
                 foreach (var projectMember in _selectedProjectMembers)
@@ -589,34 +404,34 @@ namespace RWCS_Desktop
 
 
                     User user = JsonConvert.DeserializeObject<User>(resultContent);
-                   
+
 
                     text_users.Add($"{projectMember.Id}| {user.FirstName} {user.LastName}   Role: {projectMember.Role}");
 
                 }
-                if(usersListBox.Items.Count > 0)
+                if (usersListBox.Items.Count > 0)
                 {
                     usersListBox.Items.Clear();
                 }
-                
-                foreach(var user in text_users)
+
+                foreach (var user in text_users)
                 {
                     usersListBox.Items.Add(user);
                 }
 
             }
         }
-        
+
 
         private async Task<bool> GetProjectMembers()
         {
             HttpClient httpClient = new HttpClient();
 
-        
+
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync(url + $"/projectMembers/project/{_selectedProject.Id}");
-   
+
                 if (response.IsSuccessStatusCode)
                 {
                     string resultContent = await response.Content.ReadAsStringAsync();
@@ -624,7 +439,7 @@ namespace RWCS_Desktop
 
                     dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
                     _selectedProjectMembers.Clear();
-                    foreach(var item in jsonObj)
+                    foreach (var item in jsonObj)
                     {
                         int id = item["id"];
                         int userId = item["userId"];
@@ -739,7 +554,7 @@ namespace RWCS_Desktop
                     infoLabel.Content = "";
                     return project;
                 }
-                
+
             }
             catch
             {
@@ -748,6 +563,337 @@ namespace RWCS_Desktop
             }
             return null;
         }
+
+        private async Task CreateNewWorkSession()
+        {
+            HttpClient client = new HttpClient();
+
+            DateTime endDate = DateTime.Now;
+            WorkSession workSession = new WorkSession()
+            {
+                ProjectMemberId = _selectedProjectMember.Id,
+                StartDate = _startDate,
+                EndDate = endDate,
+                SprintKey = _workSessionTask.SprintName,
+                TaskKey = _workSessionTask.TaskKey,
+                WorkTime = (float)_currentSessionTime.TotalMinutes,
+                ScreenActivityFolder = _foldername
+            };
+            var json = JsonConvert.SerializeObject(workSession);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync(url + "/WorkSession", content);
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        private async Task<bool> ChangeProjectMemberRole(UserRole newRole)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            ProjectMember newdata = _memberToChange;
+            newdata.Role = newRole;
+
+            var newProj = JsonConvert.SerializeObject(newdata);
+            var httpContent = new StringContent(newProj, Encoding.UTF8, "application/json");
+            try
+            {
+                HttpResponseMessage response = await httpClient.PutAsync(url + $"/projectMember/{newdata.Id}", httpContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        #endregion
+
+
+
+
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AuthWindow authWindow = new AuthWindow();
+            authWindow.Show();
+            this.Close();
+
+        }
+
+        private async void checkConnection_Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCredentials();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            _isConnected = await TestConnection();
+            if (_isConnected)
+            {
+                SetStatusLabels("Success", System.Windows.Media.Brushes.Green);
+                await Refresh();
+            }
+            else
+            {
+                SetStatusLabels("Authorization failed", System.Windows.Media.Brushes.Red);
+            }
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        }
+
+        
+
+        private async void projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            bool firstUser = false;
+            if (projectsList.SelectedItem != null)
+            {
+                HttpClient client = new HttpClient();
+                var select = projectsList.SelectedItem.ToString();
+                select = select.Split(" ")[1];
+                select = select.Substring(1, select.Length - 2);
+                _selectedProjectKey = select;
+                _currentDate = new DateTime();
+
+                _selectedProject =  await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                if (_selectedProject == null)
+                {
+                    if (MessageBox.Show("Цього проекту ще нема в системі, завантажити?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        
+                        firstUser = true;
+                        await CreateNewProject();
+
+                        _selectedProject = await GetProjectInfoWith_Domain_And_ProjectKey(_jiraBaseUrl, _selectedProjectKey);
+                        infoLabel.Content = "";
+                        Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;                       
+
+
+                    }
+                    else
+                    {
+                        await Refresh();
+                    }       
+                }
+
+
+                if (_selectedProject != null)
+                {
+                    _currentDate = DateTime.Now;
+                    statsTabItem.Visibility = Visibility.Visible;
+                    _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProject.Id);
+
+
+
+                    if (_selectedProjectMember == null)
+                    {
+                        ProjectMember new_project_member = new ProjectMember
+                        {
+                            EmployeeScreenActivityIds = new List<int>(),
+                            ProjectId = _selectedProject.Id,
+                            UserId = _userId,
+                            WorkSessionIds = new List<int>()
+                        };
+
+                        if (firstUser)
+                        {
+                            new_project_member.Role = UserRole.AgileManager;
+                        }
+                        else
+                        {
+                            new_project_member.Role = UserRole.Developer;
+                        }
+
+                        var newProjMember = JsonConvert.SerializeObject(new_project_member);
+                        var httpContent = new StringContent(newProjMember, Encoding.UTF8, "application/json");
+                        try
+                        {
+                            HttpResponseMessage response = await client.PostAsync(url + $"/ProjectMember", httpContent);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                _selectedProjectMember = await GetProjectMemberWith_UserId_And_ProjectId(_userId, _selectedProject.Id);
+                                infoLabel.Content = "";
+                            }
+
+                        }
+                        catch
+                        {
+                            infoLabel.Content = "Сталася помилка";
+                        }
+                    }
+                    statsTabItem.Visibility = Visibility.Visible;
+
+                    if (_selectedProjectMember!= null && _selectedProjectMember.Role == UserRole.AgileManager)
+                    {
+                        usersTabItem.Visibility = Visibility.Visible;
+                        projectSettings.Visibility = Visibility.Visible;
+                        projectSessionTabItem.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        usersTabItem.Visibility = Visibility.Hidden;
+                        projectSettings.Visibility = Visibility.Hidden;
+                        projectSessionTabItem.Visibility = Visibility.Hidden;
+                    }
+
+                    if (_selectedProjectMember != null && _selectedProject != null)
+                    {
+                        await GetJiraTasksAndSprints();
+
+                        if (_selectedProjectMember.Role == UserRole.AgileManager)
+                        {
+                            usersTabItem.Visibility = Visibility.Visible;
+                            await GetProjecMembersWithRoles();
+
+                        }
+                    }
+                }
+                else
+                {
+                    statsTabItem.Visibility = Visibility.Hidden;
+                }
+                
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+
+
+            }
+
+        }
+
+        #region Statistics
+
+        public async Task LoadStatisticsForProjectMember(int projectMemberId)
+        {
+            
+
+        
+            DateTime w1 = StartOfWeek(_currentDate, DayOfWeek.Monday);
+            DateTime w2 = w1.AddDays(7).AddMinutes(-1);
+
+            currentWeekLabel.Content = $"{w1.ToShortDateString()}-{w2.ToShortDateString()}";
+
+            StatisticsData week = await GetStatisticsInDateRangeForUser(w1, w2, _selectedProjectMember.Id);
+            StatisticsData overall = await GetStatisticsByProjectMemberId(_selectedProjectMember.Id);
+
+            weekHours.Content = week.HoursWorking.ToString();
+            weekTasks.Content = week.NumberOfTasks.ToString();
+            weekSessions.Content = week.NumberOfSessions.ToString();
+            overallHours.Content = overall.HoursWorking.ToString();
+            overallTasks.Content = overall.NumberOfTasks.ToString();
+            overallSessions.Content = overall.NumberOfSessions.ToString();
+
+            GetWorkSessions(true);
+
+
+        }
+
+        public async void GetWorkSessions(bool forCurrentUser)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            HttpResponseMessage response;
+            if (forCurrentUser)
+            {
+                response = await httpClient.GetAsync(url + $"/workSessions/byProjectMemberId/{_selectedProjectMember.Id}");
+                myWorkSessions.Clear();
+                workSessionsListBox.Items.Clear();
+            }
+            else
+            {
+                response = await httpClient.GetAsync(url + $"/workSessions/byProjectId/{_selectedProject.Id}");
+                allWorkSessions.Clear();
+                allWorkSessionsListBox.Items.Clear();
+            }
+
+            string resultContent = await response.Content.ReadAsStringAsync();
+            dynamic jsonObj = JsonConvert.DeserializeObject(resultContent);
+
+            foreach(var item in jsonObj)
+            {
+                int id = item["id"];
+                int projectMemberId = item["projectMemberId"];
+                string sprintKey = item["sprintKey"];
+                string taskKey = item["taskKey"];
+                DateTime startDate = item["startDate"];
+                DateTime endDate = item["endDate"];
+                float workTime = item["workTime"];
+                string screenActivityFolder = item["screenActivityFolder"];
+
+                WorkSession session = new WorkSession()
+                {
+                    Id = id,
+                    ProjectMemberId = projectMemberId,
+                    SprintKey = sprintKey,
+                    TaskKey = taskKey,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    WorkTime = workTime,
+                    ScreenActivityFolder = screenActivityFolder
+                };
+
+                String session_to_string = $"{id}| By:{projectMemberId}|{sprintKey}:{taskKey}|  ({startDate.ToShortDateString()})-({endDate.ToShortDateString()} Total time:{workTime})";
+
+                if (forCurrentUser)
+                {
+                   myWorkSessions.Add(session);
+                   workSessionsListBox.Items.Add(session_to_string);
+                }
+                else
+                {
+                    allWorkSessions.Add(session);
+                    allWorkSessionsListBox.Items.Add(session_to_string);
+                }
+            }
+
+            
+        }
+
+        public async Task<StatisticsData> GetStatisticsInDateRangeForUser(DateTime t1, DateTime t2, int id)
+        {
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage response = await httpClient.GetAsync(url + $"/Statistics?start={t1.Year}-{t1.Month}-{t1.Day}&end={t2.Year}-{t2.Month}-{t2.Day}&projectMemberId={id}");
+            string resultContent = await response.Content.ReadAsStringAsync();
+
+
+            StatisticsData stats = JsonConvert.DeserializeObject<StatisticsData>(resultContent);
+            return stats;
+        }
+
+        public async Task<StatisticsData> GetStatisticsByProjectMemberId(int id)
+        {
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage response = await httpClient.GetAsync(url + $"/Statistics/projectMemberId/{id}");
+            string resultContent = await response.Content.ReadAsStringAsync();
+
+
+            StatisticsData stats = JsonConvert.DeserializeObject<StatisticsData>(resultContent);
+            return stats;
+        }
+
+        public DateTime StartOfWeek(DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
+
+        #endregion
+
+        
 
         private async void refreshButton_Click(object sender, RoutedEventArgs e)
         {
@@ -767,6 +913,7 @@ namespace RWCS_Desktop
             usersTabItem.Visibility = Visibility.Hidden;
             projectSettings.Visibility = Visibility.Hidden;
             projectSettings.Visibility = Visibility.Hidden;
+            statsTabItem.Visibility = Visibility.Hidden;
             projectSessionTabItem.Visibility = Visibility.Hidden;
             _selectedProject = null;
             _selectedProjectKey = null;
@@ -789,6 +936,7 @@ namespace RWCS_Desktop
 
             if(_IsScreenActivityControlEnabled && _currentSessionTime.TotalSeconds % _interval == 0)
             {
+                bool t = workSessionTimer.IsEnabled;
                 HttpClient client = new HttpClient();
                 double screenLeft = SystemParameters.VirtualScreenLeft;
                 double screenTop = SystemParameters.VirtualScreenTop;
@@ -800,9 +948,8 @@ namespace RWCS_Desktop
                 {
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
-                        String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmm") + ".png";
+                        String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmmss") + ".png";
                         
-                        Opacity = .0;
                         g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
 
 
@@ -829,74 +976,62 @@ namespace RWCS_Desktop
         }
 
 
-        private void workSession_Button_Click(object sender, RoutedEventArgs e)
+        private async void workSession_Button_Click(object sender, RoutedEventArgs e)
         {
             HttpClient client = new HttpClient();
-           
 
-            if (_selectedTask != null)
+            if (!workSessionTimer.IsEnabled)
             {
-                infoLabel.Content = "";
-                _currentSessionTime = new TimeSpan(0, 0, 0);
-                _IsScreenActivityControlEnabled = _selectedProject.IsScreenActivityControlEnabled;
-                _workSessionTask = _selectedTask;
-                _startDate = DateTime.Now;
-                    
-                _interval = _selectedProject.ScreenshotInterval;
-                    
-
-                if (_IsScreenActivityControlEnabled)
+                if (_selectedTask != null)
                 {
-                    _foldername = _startDate.ToString("ddMMyyyy-hhmm") + $"_user_{_userId}";
+                    infoLabel.Content = "";
+                    _currentSessionTime = new TimeSpan(0, 0, 0);
+                    _IsScreenActivityControlEnabled = _selectedProject.IsScreenActivityControlEnabled;
+                    _workSessionTask = _selectedTask;
+                    _startDate = DateTime.Now;
 
+                    _interval = _selectedProject.ScreenshotInterval;
+
+
+                    if (_IsScreenActivityControlEnabled)
+                    {
+                        _foldername = _startDate.ToString("ddMMyyyy-hhmm") + $"_user_{_userId}";
+
+                    }
+                    else
+                    {
+                        _foldername = "-";
+                    }
+
+
+                    workSession_Button.Background = System.Windows.Media.Brushes.Red;
+                    workSession_Button.Foreground = System.Windows.Media.Brushes.White;
+                    workSession_Button.Content = "Зупинити";
+
+                    workSessionTimer.Start();
                 }
                 else
                 {
-                    _foldername = "-";
+                    infoLabel.Content = "Потрібено обрати завдання";
                 }
-
-                TimerWindow timer = new TimerWindow(_userId, _userName, _email, _jiraApiKey, _jiraBaseUrl, _workSessionTask, _selectedProjectMember, _startDate, _foldername, workSessionTimer);
-                timer.Show();
-                this.Close();
-                workSessionTimer.Start();
             }
             else
             {
-                infoLabel.Content = "Потрібено обрати завдання";
+                workSessionTimer.Stop(); 
+                workSession_Button.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#4C4C6D");
+                workSession_Button.Foreground = System.Windows.Media.Brushes.DarkOrange;
+                workSession_Button.Content = "Почати";
+                await CreateNewWorkSession();
             }
+
+            
 
             
             
         }
 
         
-        private async void CreateNewWorkSession()
-        {
-            HttpClient client = new HttpClient();
-
-            DateTime endDate = DateTime.Now;
-            WorkSession workSession = new WorkSession()
-            {
-                ProjectMemberId = _selectedProjectMember.Id,
-                StartDate = _startDate,
-                EndDate = endDate,
-                SprintKey = _workSessionTask.SprintName,
-                TaskKey = _workSessionTask.TaskKey,
-                WorkTime = (float)(endDate.Subtract(_startDate)).Hours + (float)(endDate.Subtract(_startDate)).Minutes
-            };
-            var json = JsonConvert.SerializeObject(workSession);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            try
-            {
-                HttpResponseMessage response = await client.PostAsync(url + "/WorkSession", content);
-
-            }
-            catch
-            {
-                infoLabel.Content = "Помилка підключення до сервера";
-            }
-        }
+        
 
         private void projectSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -959,36 +1094,40 @@ namespace RWCS_Desktop
             }
         }
 
-        private async Task<bool> ChangeProjectMemberRole(UserRole newRole)
+        
+
+        private async void toStatsLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            HttpClient httpClient = new HttpClient();
-
-            ProjectMember newdata = _memberToChange;
-            newdata.Role = newRole;
-
-            var newProj = JsonConvert.SerializeObject(newdata);
-            var httpContent = new StringContent(newProj, Encoding.UTF8, "application/json");
-            try
-            {
-                HttpResponseMessage response = await httpClient.PutAsync(url + $"/projectMember/{newdata.Id}", httpContent);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
+            await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
         }
 
-       
+        private async void leftButton_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDate = _currentDate.AddDays(-7);
+            await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
+        }
+
+        private async void rightButton_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDate = _currentDate.AddDays(7);
+            await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
+        }
+
+        private async void nowButton_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDate = DateTime.Now;
+            await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
+        }
+
+        private void workSessionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            WorkSessionWindow window = new WorkSessionWindow();
+            window.Show();
+        }
+
+        private void toProjectSessionLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GetWorkSessions(false);
+        }
     }
 }
