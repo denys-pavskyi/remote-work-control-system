@@ -110,6 +110,19 @@ namespace API.Controllers
 
         }
 
+        
+
+        // GET api/<ProjectMemberController>/{id}/fullName
+        [HttpGet("ProjectMember/{id}/fullName")]
+        public async Task<string> GetFullNameById(int id)
+        {
+            string fullName = "";
+            fullName = await _service.GetFullName(id);
+            return fullName;
+        }
+
+
+
         // PUT api/<ProjectMemberController>/5
         [HttpPut("ProjectMember/{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] ProjectMemberModel value)

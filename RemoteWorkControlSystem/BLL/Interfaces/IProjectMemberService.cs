@@ -12,5 +12,7 @@ namespace BLL.Interfaces
         Task<ProjectMemberModel> GetByUserId_And_ProjectId_Async(int userId, int projectId);
 
         Task<IEnumerable<ProjectMemberModel>> GetByProjectId(int projectId);
+
+        Task<string> GetFullName(int projectMemberId);
     }
 }

@@ -623,6 +623,18 @@ namespace RWCS_Desktop
 
         }
 
+
+        private async Task<string> GetProjectMemberName(int id)
+        {
+            string name = "";
+
+            HttpClient client = new HttpClient();
+
+            HttpResponseMessage response = await client.GetAsync(url + $"/projectMember/{id}/fullName");
+            name = await response.Content.ReadAsStringAsync();
+            return name;
+        }
+
         #endregion
 
 
@@ -1061,11 +1073,15 @@ namespace RWCS_Desktop
 
         private void tasksList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedTaskTextBlock.Text = $"Обрано завдання{tasksList.SelectedItem} з спринту {sprintListBox.SelectedItem}";
+            if (tasksList.SelectedItem != null)
+            {
+                selectedTaskTextBlock.Text = $"Обрано завдання{tasksList.SelectedItem} з спринту {sprintListBox.SelectedItem}";
 
-            string taskKey = tasksList.SelectedItem.ToString().Split(":")[0];
-            taskKey = taskKey.Trim().Substring(1, taskKey.Length-2);
-            _selectedTask = _allTasks.FirstOrDefault(x => x.TaskKey == taskKey);
+                string taskKey = tasksList.SelectedItem.ToString().Split(":")[0];
+                taskKey = taskKey.Trim().Substring(1, taskKey.Length - 2);
+                _selectedTask = _allTasks.FirstOrDefault(x => x.TaskKey == taskKey);
+            }
+           
         }
 
         private void usersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1119,10 +1135,40 @@ namespace RWCS_Desktop
             await LoadStatisticsForProjectMember(_selectedProjectMember.Id);
         }
 
-        private void workSessionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void workSessionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            WorkSessionWindow window = new WorkSessionWindow();
-            window.Show();
+            if (workSessionsListBox.SelectedItem != null)
+            {
+                var select = workSessionsListBox.SelectedItem.ToString();
+                select = select.Split("|")[0];
+
+                int id = int.Parse(select);
+
+                string fullName = await GetProjectMemberName(myWorkSessions.FirstOrDefault(x => x.Id == id).ProjectMemberId);
+                WorkSessionWindow window = new WorkSessionWindow(myWorkSessions.FirstOrDefault(x => x.Id == id), fullName);
+                window.Show();
+            }
+            
+        }
+
+
+
+        private async void allWorkSessionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (allWorkSessionsListBox.SelectedItem != null)
+            {
+                var select = allWorkSessionsListBox.SelectedItem.ToString();
+                select = select.Split("|")[0];
+
+                int id = int.Parse(select);
+
+
+                string fullName = await GetProjectMemberName(allWorkSessions.FirstOrDefault(x => x.Id == id).ProjectMemberId);
+                WorkSessionWindow window = new WorkSessionWindow(allWorkSessions.FirstOrDefault(x => x.Id == id), fullName);
+                window.Show();
+            }
+
+           
         }
 
         private void toProjectSessionLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

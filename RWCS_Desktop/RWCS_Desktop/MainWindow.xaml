@@ -112,7 +112,7 @@
                 
                 <Grid Background="#DBDFEA">
                     <Grid Margin="34,194,231,56">
-                        <ListBox x:Name="allWorkSessionsListBox"  Background="#FFEAD2" Margin="29,-131,-29,48" SelectionChanged="workSessionsListBox_SelectionChanged"/>
+                        <ListBox x:Name="allWorkSessionsListBox"  Background="#FFEAD2" Margin="29,-131,-29,48" SelectionChanged="allWorkSessionsListBox_SelectionChanged"/>
                     </Grid>
 
                 </Grid>

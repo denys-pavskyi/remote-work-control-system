@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,40 @@ namespace API.Controllers
             
             return Ok("File uploaded successfully");
         }
+
+
+        // GET api/Screenshot/fromFolder/{folderName}
+        [HttpGet("Screenshot/fromFolder/{folderName}")]
+        public async Task<List<string>> GetURLsFromFolder(string folderName)
+        {
+            List<string> urls = new List<string>();
+            string connectionString = _screenshotPath;
+            string containerName = "bloprwcs";
+            string folderPath = folderName; // E.g., "images/"
+            string fileExtension = ".png"; // Specify the desired file extension
+
+            // Create a BlobServiceClient object by passing the connection string
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+
+            // Get a reference to the container
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+
+            // List all blobs in the container with the specified folder path
+            await foreach (BlobItem blobItem in containerClient.GetBlobsAsync(prefix: folderPath))
+            {
+                // Check if the blob is an image based on the file extension
+                if (blobItem.Name.EndsWith(fileExtension, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Get the URL of the image blob
+                    BlobClient blobClient = containerClient.GetBlobClient(blobItem.Name);
+                    Uri blobUri = blobClient.Uri;
+                    urls.Add(blobUri.ToString());
+                }
+            }
+
+            return urls;
+        }
+
 
     }
 }

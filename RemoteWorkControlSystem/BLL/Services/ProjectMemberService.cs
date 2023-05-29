@@ -51,6 +51,16 @@ namespace BLL.Services
             return _mapper.Map<ProjectMemberModel>(unmappedProjectMember);
         }
 
+        public async Task<string> GetFullName(int projectMemberId)
+        {
+            var unmappedProjectMember = await _unitOfWork.ProjectMemberRepository.GetByIdWithDetailsAsync(projectMemberId);
+
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(unmappedProjectMember.UserId);
+
+            return user.FirstName + " " + user.LastName;
+        }
+
+
         public async Task UpdateAsync(ProjectMemberModel model)
         {
             ModelsValidation.ProjectMemberModelValidation(model);

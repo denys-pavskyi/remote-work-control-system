@@ -17,5 +17,6 @@
         <Button x:Name="registrationButton" Content="Реєстрація" HorizontalAlignment="Left" Margin="292,288,0,0" VerticalAlignment="Top" Height="30" Click="registrationButton_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" Width="76"/>
         <Label x:Name="messageText" Content="" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Foreground="Red" Width="326" FontSize="16"/>
 
+
     </Grid>
 </Window>

@@ -6,9 +6,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
-        Title="WorkSessionWindow" Height="450" Width="600">
+        Title="WorkSessionWindow" Height="450" Width="1000">
     <Grid Background="#DBDFEA">
-        <Button x:Name="closeButton" Content="Закрити" HorizontalAlignment="Left" Margin="493,29,0,0" VerticalAlignment="Top" Height="33" Width="66" Click="closeButton_Click"/>
+        <Button x:Name="closeButton" Content="Закрити" HorizontalAlignment="Left" Margin="626,10,0,0" VerticalAlignment="Top" Height="33" Width="66" Click="closeButton_Click"/>
 
+        <Grid>
+            <Image x:Name="screenshotImage" Margin="294,54,35,54"></Image>
+            <Label Content="Name:" HorizontalAlignment="Left" Margin="45,94,0,0" VerticalAlignment="Top"/>
+            <Label Content="ProjectMemberId:" HorizontalAlignment="Left" Margin="38,53,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="projectMemberIdLabel" Content="" HorizontalAlignment="Left" Margin="154,53,0,0" VerticalAlignment="Top"/>
+            <Label Content="Date: " HorizontalAlignment="Left" Margin="45,219,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="dateLabel" Content="" HorizontalAlignment="Left" Margin="91,219,0,0" VerticalAlignment="Top"/>
+            <Label Content="Sprint:" HorizontalAlignment="Left" Margin="45,133,0,0" VerticalAlignment="Top"/>
+            <Label Content="Task:" HorizontalAlignment="Left" Margin="45,174,0,0" VerticalAlignment="Top"/>
+            <Label Content="WorkSessionId:" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="WorkTime:" HorizontalAlignment="Left" Margin="45,265,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="workTimeLabel" Content="" HorizontalAlignment="Left" Margin="116,265,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="taskLabel" Content="" HorizontalAlignment="Left" Margin="91,174,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="sprintLabel" Content="" HorizontalAlignment="Left" Margin="97,133,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="nameLabel" Content="" HorizontalAlignment="Left" Margin="97,94,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="workSessionIdLabel" Content="Label" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="screenshotStatus" Content="" HorizontalAlignment="Left" Margin="320,53,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="loadScreenshotsButton" Content="Завантажити знімки екрану" HorizontalAlignment="Left" Margin="350,12,0,0" VerticalAlignment="Top" Height="33" Width="161" Click="loadScreenshotsButton_Click"/>
+            <Button x:Name="prevScreenshotButton" Content="&lt;&lt;&lt;" HorizontalAlignment="Left" Margin="409,0,0,16" Width="62" Click="prevScreenshotButton_Click" Height="28" VerticalAlignment="Bottom"/>
+            <Button x:Name="nextScreenshotButton" Content="&gt;&gt;&gt;" HorizontalAlignment="Left" Margin="501,0,0,16" Width="63" Click="nextScreenshotButton_Click" Height="28" VerticalAlignment="Bottom"/>
+            <Label x:Name="currentScreenShotDataLabel" Content="" HorizontalAlignment="Left" Margin="642,397,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Window>
