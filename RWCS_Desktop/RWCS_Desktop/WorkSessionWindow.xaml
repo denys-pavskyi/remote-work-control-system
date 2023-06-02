@@ -12,15 +12,15 @@
 
         <Grid>
             <Image x:Name="screenshotImage" Margin="294,54,35,54"></Image>
-            <Label Content="Name:" HorizontalAlignment="Left" Margin="45,94,0,0" VerticalAlignment="Top"/>
+            <Label Content="Name:" HorizontalAlignment="Left" Margin="38,94,0,0" VerticalAlignment="Top"/>
             <Label Content="ProjectMemberId:" HorizontalAlignment="Left" Margin="38,53,0,0" VerticalAlignment="Top"/>
             <Label x:Name="projectMemberIdLabel" Content="" HorizontalAlignment="Left" Margin="154,53,0,0" VerticalAlignment="Top"/>
-            <Label Content="Date: " HorizontalAlignment="Left" Margin="45,219,0,0" VerticalAlignment="Top"/>
+            <Label Content="Date: " HorizontalAlignment="Left" Margin="38,219,0,0" VerticalAlignment="Top"/>
             <Label x:Name="dateLabel" Content="" HorizontalAlignment="Left" Margin="91,219,0,0" VerticalAlignment="Top"/>
-            <Label Content="Sprint:" HorizontalAlignment="Left" Margin="45,133,0,0" VerticalAlignment="Top"/>
-            <Label Content="Task:" HorizontalAlignment="Left" Margin="45,174,0,0" VerticalAlignment="Top"/>
-            <Label Content="WorkSessionId:" HorizontalAlignment="Left" Margin="52,10,0,0" VerticalAlignment="Top"/>
-            <Label Content="WorkTime:" HorizontalAlignment="Left" Margin="45,265,0,0" VerticalAlignment="Top"/>
+            <Label Content="Sprint:" HorizontalAlignment="Left" Margin="38,133,0,0" VerticalAlignment="Top"/>
+            <Label Content="Task:" HorizontalAlignment="Left" Margin="38,174,0,0" VerticalAlignment="Top"/>
+            <Label Content="WorkSessionId:" HorizontalAlignment="Left" Margin="38,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="WorkTime:" HorizontalAlignment="Left" Margin="38,265,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.452,0.587"/>
             <Label x:Name="workTimeLabel" Content="" HorizontalAlignment="Left" Margin="116,265,0,0" VerticalAlignment="Top"/>
             <Label x:Name="taskLabel" Content="" HorizontalAlignment="Left" Margin="91,174,0,0" VerticalAlignment="Top"/>
             <Label x:Name="sprintLabel" Content="" HorizontalAlignment="Left" Margin="97,133,0,0" VerticalAlignment="Top"/>

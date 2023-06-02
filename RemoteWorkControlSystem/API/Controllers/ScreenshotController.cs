@@ -45,6 +45,34 @@ namespace API.Controllers
         }
 
 
+        // POST api/Screenshot/
+        [HttpPost("Screenshot/quality")]
+        public async Task<ActionResult> ChangeQuality(IFormFile file)
+        {
+            BlobContainerClient blobContainerClient = new BlobContainerClient(_screenshotPath, "bloprwcs");
+
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                stream.Position = 0;
+                try
+                {
+                    await blobContainerClient.UploadBlobAsync(file.FileName, stream);
+
+                }
+                catch (Exception ex)
+                {
+
+                    return BadRequest();
+                }
+
+            }
+
+            return Ok("File uploaded successfully");
+        }
+
+
         // GET api/Screenshot/fromFolder/{folderName}
         [HttpGet("Screenshot/fromFolder/{folderName}")]
         public async Task<List<string>> GetURLsFromFolder(string folderName)
@@ -52,22 +80,18 @@ namespace API.Controllers
             List<string> urls = new List<string>();
             string connectionString = _screenshotPath;
             string containerName = "bloprwcs";
-            string folderPath = folderName; // E.g., "images/"
-            string fileExtension = ".png"; // Specify the desired file extension
+            string folderPath = folderName; 
+            string fileExtension = ".png"; 
 
-            // Create a BlobServiceClient object by passing the connection string
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
 
-            // Get a reference to the container
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
-            // List all blobs in the container with the specified folder path
             await foreach (BlobItem blobItem in containerClient.GetBlobsAsync(prefix: folderPath))
             {
                 // Check if the blob is an image based on the file extension
                 if (blobItem.Name.EndsWith(fileExtension, StringComparison.OrdinalIgnoreCase))
                 {
-                    // Get the URL of the image blob
                     BlobClient blobClient = containerClient.GetBlobClient(blobItem.Name);
                     Uri blobUri = blobClient.Uri;
                     urls.Add(blobUri.ToString());

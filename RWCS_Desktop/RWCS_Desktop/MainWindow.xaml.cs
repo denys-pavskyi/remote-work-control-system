@@ -406,7 +406,7 @@ namespace RWCS_Desktop
                     User user = JsonConvert.DeserializeObject<User>(resultContent);
 
 
-                    text_users.Add($"{projectMember.Id}| {user.FirstName} {user.LastName}   Role: {projectMember.Role}");
+                    text_users.Add($"{projectMember.Id}| {user.FirstName} {user.LastName}   Роль: {projectMember.Role}");
 
                 }
                 if (usersListBox.Items.Count > 0)
@@ -858,7 +858,7 @@ namespace RWCS_Desktop
                     ScreenActivityFolder = screenActivityFolder
                 };
 
-                String session_to_string = $"{id}| By:{projectMemberId}|{sprintKey}:{taskKey}|  ({startDate.ToShortDateString()})-({endDate.ToShortDateString()} Total time:{workTime})";
+                String session_to_string = $"{id}|  Від:{projectMemberId}|{sprintKey}:{taskKey}|   ({startDate.ToShortDateString()})-({endDate.ToShortDateString()})   Час:{MathF.Round(workTime,2)}";
 
                 if (forCurrentUser)
                 {
@@ -958,6 +958,9 @@ namespace RWCS_Desktop
 
                 using (Bitmap bmp = new Bitmap((int)screenWidth, (int)screenHeight))
                 {
+
+                    bmp.SetResolution(96.0F, 96.0F);
+
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
                         String filename = "ScreenCapture-" + DateTime.Now.ToString("ddMMyyyy-hhmmss") + ".png";

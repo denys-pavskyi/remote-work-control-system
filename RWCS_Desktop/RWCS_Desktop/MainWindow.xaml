@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:RWCS_Desktop"
         mc:Ignorable="d"
         Title="Remote Work Control System" Height="550" Width="1000">
-    <Grid>
-        <TabControl Margin="0,10,0,0">
-            <TabItem Header="Головна" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+    <Grid Background="#4C4C6D">
+        <TabControl >
+            <TabItem Header="Головна" Background="#4C4C6D" Width="200" Foreground="LightGray" FontWeight="Bold" FontSize="14">
                 <Grid Background="#DBDFEA">
                     <ListBox x:Name="projectsList" Height="149" VerticalAlignment="Top" Margin="42,74,672,0" SelectionChanged="projectsList_SelectionChanged" FontWeight="Normal"/>
                     <Label Content="Проекти:" HorizontalAlignment="Left" Margin="42,43,0,0" VerticalAlignment="Top"/>
@@ -18,7 +18,7 @@
                     <Button x:Name="refreshButton" Content="Оновити" HorizontalAlignment="Left" Margin="216,23,0,0" VerticalAlignment="Top" Click="refreshButton_Click" Height="28" Width="82" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
                     <ListBox x:Name="tasksList" Margin="91,324,529,23" SelectionChanged="tasksList_SelectionChanged" FontWeight="Normal"/>
                     <Button x:Name="workSession_Button" Content="Почати" HorizontalAlignment="Left" Margin="850,388,0,0" VerticalAlignment="Top" Height="41" Width="107" Click="workSession_Button_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
-                    <Label Content="Завдання спринту:" HorizontalAlignment="Left" Margin="91,293,0,0" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Завдання спринту:" HorizontalAlignment="Left" Margin="91,293,0,0" VerticalAlignment="Top" Width="146"/>
                     <Label x:Name="timeLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="691,380,0,0" VerticalAlignment="Top" FontSize="36"/>
                     <Grid/>
                     <Button x:Name="projectSettings" Content="Налаштування проекту" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,235,0,0" VerticalAlignment="Top" Height="39" Width="179" Click="projectSettings_Click" Background="#4C4C6D" Foreground="DarkOrange" FontWeight="Bold" FontSize="14"/>
@@ -30,7 +30,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Профіль" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+            <TabItem Header="Профіль" Background="#4C4C6D" Foreground="LightGray" Width="190"  FontWeight="Bold" FontSize="14">
                 <Grid Background="#DBDFEA">
                     <Label Content="Увійшли як:" HorizontalAlignment="Left" Margin="15,57,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="usernameInfo" Content="" HorizontalAlignment="Left" Margin="107,57,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
@@ -49,7 +49,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="usersTabItem"  Header="Список користувачів" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+            <TabItem x:Name="usersTabItem"  Header="Список користувачів" Background="#4C4C6D" Width="190"  Foreground="LightGray" FontWeight="Bold" FontSize="14">
                 <Grid Background="#DBDFEA">
                     <ListBox x:Name="usersListBox"  Margin="0,53,413,214" SelectionChanged="usersListBox_SelectionChanged" FontWeight="Normal"/>
                     <ComboBox x:Name="rolePicker" HorizontalAlignment="Left" Margin="70,373,0,0" VerticalAlignment="Top" Width="120"/>
@@ -59,7 +59,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="statsTabItem"  Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14">
+            <TabItem x:Name="statsTabItem"  Visibility="Visible" Background="#4C4C6D" Width="190"  Foreground="LightGray" FontWeight="Bold" FontSize="14">
 
                 <TabItem.Header>
                     <Label x:Name="toStatsLabel" Content="Моя статистика" Foreground="LightGray" FontWeight="Bold" MouseLeftButtonUp="toStatsLabel_MouseLeftButtonUp">
@@ -103,13 +103,13 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="projectSessionTabItem" Visibility="Visible" Background="#4C4C6D" Foreground="LightGray" FontWeight="Bold" FontSize="14" >
+            <TabItem x:Name="projectSessionTabItem" Visibility="Visible" Background="#4C4C6D" Width="190"  Foreground="LightGray" FontWeight="Bold" FontSize="14" >
                 <TabItem.Header>
                     <Label x:Name="toProjectSessionLabel" Content="Сесії проекту" Foreground="LightGray" FontWeight="Bold" MouseLeftButtonUp="toProjectSessionLabel_MouseLeftButtonUp" >
 
                     </Label>
                 </TabItem.Header>
-                
+
                 <Grid Background="#DBDFEA">
                     <Grid Margin="34,194,231,56">
                         <ListBox x:Name="allWorkSessionsListBox"  Background="#FFEAD2" Margin="29,-131,-29,48" SelectionChanged="allWorkSessionsListBox_SelectionChanged"/>
